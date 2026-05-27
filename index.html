@@ -4528,21 +4528,36 @@ video:-webkit-full-screen {
 
     <!-- nuScenes -->
     <div class="eval-tab-panel" id="ds-nuscenes">
-      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
-        <strong>nuScenes v1.0-mini</strong> — 10 driving scenes · 3 front cameras · 30 videos · ~10 min footage.
-        GT from <code>scene.json</code> scene-level tags. Whole-clip captioning via <code>--fixed-stride-split-duration 3600</code>.
-        Judged by <strong>Gemma4-E4B</strong> (text judge, receives GT tags) and <strong>VCI-7B</strong> (video judge, no GT).
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:8px">
+        <strong>nuScenes v1.0-mini</strong> — 10 driving scenes · 3 front-hemisphere cameras grouped into a single Qwen inference call per scene.
+        GT from <code>scene.json</code> scene-level tags. One shared caption covers what all three cameras see.
       </p>
-      <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:0.78rem;color:var(--text-muted)">
-        <strong>Result:</strong> Gemma4-E4B judged <span style="color:#16a34a;font-weight:700">9/10 correct</span> — scene tags are high-level enough that Qwen's verbose descriptions usually cover them.
-        VCI-7B (ActivityNet domain, driving out-of-distribution) judged only <span style="color:#16a34a;font-weight:700">2/10 correct</span>.
+      <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:14px;padding:10px 16px;margin-bottom:14px;font-size:0.78rem;color:var(--text-muted)">
+        <strong>Judges:</strong>
+        Gemma4-E4B (text, receives GT) → <span style="color:#16a34a;font-weight:700">9/10 correct</span> ·
+        VCI-7B (video, no GT, ActivityNet domain) → <span style="color:#dc2626;font-weight:700">2/10 correct</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="cards-grid">
+      <div style="display:flex;flex-direction:column;gap:14px">
+
+        <!-- scene-0061 -->
         <div class="example-card">
-          <div class="example-hdr">scene-0061 · CAM_FRONT · multi-view</div>
+          <div class="example-hdr">scene-0061 · daytime · urban street</div>
           <div class="example-body">
-            <video src="videos/nuscenes/scene-0061.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"A vehicle travels a wide urban street past a parked POKKA delivery truck. At an intersection ahead, orange traffic cones and an excavator mark ongoing construction. Pedestrians cross at a crosswalk, then the vehicle follows a white Toyota Alphard van through."</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_LEFT</div>
+                <video src="videos/nuscenes/scene-0061_left.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--honey-bronze);text-align:center;margin-bottom:3px">CAM_FRONT ★</div>
+                <video src="videos/nuscenes/scene-0061_front.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;outline:1.5px solid var(--honey-bronze)"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_RIGHT</div>
+                <video src="videos/nuscenes/scene-0061_right.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+            </div>
+            <p class="cap-text" style="margin-bottom:6px">"The footage begins with the left camera (CAM_FRONT_LEFT) showing a truck parked on the roadside, its cargo area loaded with boxes. The front camera (CAM_FRONT) then reveals the 'Fusionopolis Two' glass-facade building with construction barriers ahead. The vehicle follows a white van through the intersection."</p>
             <p class="gt-line"><strong>GT tags:</strong> Parked truck, construction, intersection, turn left, following a van</p>
             <div class="verdict-row">
               <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
@@ -4550,11 +4565,26 @@ video:-webkit-full-screen {
             </div>
           </div>
         </div>
+
+        <!-- scene-0553 -->
         <div class="example-card">
-          <div class="example-hdr">scene-0553 · CAM_FRONT · multi-view</div>
+          <div class="example-hdr">scene-0553 · daytime · busy intersection</div>
           <div class="example-body">
-            <video src="videos/nuscenes/scene-0553.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"A vehicle waits at a busy urban intersection with red traffic lights. Pedestrians cross at the crosswalk (some pushing carts); a large bus passes through. Construction cranes are visible against the sky, and a sign reads 'No Turn on Red'."</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_LEFT</div>
+                <video src="videos/nuscenes/scene-0553_left.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--honey-bronze);text-align:center;margin-bottom:3px">CAM_FRONT ★</div>
+                <video src="videos/nuscenes/scene-0553_front.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;outline:1.5px solid var(--honey-bronze)"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_RIGHT</div>
+                <video src="videos/nuscenes/scene-0553_right.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+            </div>
+            <p class="cap-text" style="margin-bottom:6px">"Three cameras capture an urban intersection. The front camera (CAM_FRONT) shows red traffic lights, a pedestrian crosswalk, and construction cranes overhead. The left camera (CAM_FRONT_LEFT) reveals a parked car and pedestrians pulling carts crossing the street. A bicycle and large truck are visible across all views."</p>
             <p class="gt-line"><strong>GT tags:</strong> Wait at intersection, bicycle, large truck, peds crossing crosswalk, ped with stroller</p>
             <div class="verdict-row">
               <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
@@ -4562,11 +4592,26 @@ video:-webkit-full-screen {
             </div>
           </div>
         </div>
+
+        <!-- scene-1077 -->
         <div class="example-card">
-          <div class="example-hdr">scene-1077 · CAM_FRONT · night</div>
+          <div class="example-hdr">scene-1077 · night · high-speed road</div>
           <div class="example-body">
-            <video src="videos/nuscenes/scene-1077.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"Night driving on a well-lit multi-lane road. Traffic is sparse — only a few vehicles visible ahead. Streetlights illuminate road barriers and trees, while city buildings glow faintly in the distance."</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_LEFT</div>
+                <video src="videos/nuscenes/scene-1077_left.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--honey-bronze);text-align:center;margin-bottom:3px">CAM_FRONT ★</div>
+                <video src="videos/nuscenes/scene-1077_front.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;outline:1.5px solid var(--honey-bronze)"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_RIGHT</div>
+                <video src="videos/nuscenes/scene-1077_right.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+            </div>
+            <p class="cap-text" style="margin-bottom:6px">"The left camera (CAM_FRONT_LEFT) shows a dark nighttime road with a vehicle's headlights receding into the distance. The front camera (CAM_FRONT) reveals a wide, well-lit multi-lane road with sparse traffic ahead. All cameras confirm high-speed night driving with a bus stop and construction vehicle visible."</p>
             <p class="gt-line"><strong>GT tags:</strong> Night, big street, bus stop, high speed, construction vehicle</p>
             <div class="verdict-row">
               <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
@@ -4574,11 +4619,26 @@ video:-webkit-full-screen {
             </div>
           </div>
         </div>
+
+        <!-- scene-1094 -->
         <div class="example-card">
-          <div class="example-hdr">scene-1094 · CAM_FRONT · night / rain</div>
+          <div class="example-hdr">scene-1094 · night · after rain</div>
           <div class="example-body">
-            <video src="videos/nuscenes/scene-1094.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"A busy nighttime intersection at the illuminated 'Holland Road Shopping Centre'. Cars, trucks, and pedestrians animate the crossing. The view then becomes a first-person drive down a quieter, rain-slicked urban road."</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_LEFT</div>
+                <video src="videos/nuscenes/scene-1094_left.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--honey-bronze);text-align:center;margin-bottom:3px">CAM_FRONT ★</div>
+                <video src="videos/nuscenes/scene-1094_front.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;outline:1.5px solid var(--honey-bronze)"></video>
+              </div>
+              <div>
+                <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);text-align:center;margin-bottom:3px">CAM_FRONT_RIGHT</div>
+                <video src="videos/nuscenes/scene-1094_right.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block"></video>
+              </div>
+            </div>
+            <p class="cap-text" style="margin-bottom:6px">"Three cameras capture a night scene after rain. The left camera (CAM_FRONT_LEFT) shows a tree-lined sidewalk; the front camera (CAM_FRONT) shows a red-light intersection with a jaywalker crossing; the right camera (CAM_FRONT_RIGHT) shows the same intersection from the other side, featuring the lit 'Holland Road Shopping Centre'."</p>
             <p class="gt-line"><strong>GT tags:</strong> Night, after rain, many peds, PMD, jaywalker, truck, scooter</p>
             <div class="verdict-row">
               <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
@@ -4586,6 +4646,7 @@ video:-webkit-full-screen {
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
