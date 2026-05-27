@@ -4531,38 +4531,59 @@ video:-webkit-full-screen {
       <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
         <strong>nuScenes v1.0-mini</strong> — 10 driving scenes · 3 front cameras · 30 videos · ~10 min footage.
         GT from <code>scene.json</code> scene-level tags. Whole-clip captioning via <code>--fixed-stride-split-duration 3600</code>.
+        Judged by <strong>Gemma4-E4B</strong> (text judge, receives GT tags) and <strong>VCI-7B</strong> (video judge, no GT).
       </p>
+      <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:0.78rem;color:var(--text-muted)">
+        <strong>Result:</strong> Gemma4-E4B judged <span style="color:#16a34a;font-weight:700">9/10 correct</span> — scene tags are high-level enough that Qwen's verbose descriptions usually cover them.
+        VCI-7B (ActivityNet domain, driving out-of-distribution) judged only <span style="color:#16a34a;font-weight:700">2/10 correct</span>.
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="cards-grid">
         <div class="example-card">
           <div class="example-hdr">scene-0061 · CAM_FRONT · multi-view</div>
           <div class="example-body">
             <video src="videos/nuscenes/scene-0061.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"The video captures a busy urban street scene from three synchronized cameras. A truck is parked on the right, the vehicle navigates an intersection with construction ahead, then turns left following a van."</p>
+            <p class="cap-text">"A vehicle travels a wide urban street past a parked POKKA delivery truck. At an intersection ahead, orange traffic cones and an excavator mark ongoing construction. Pedestrians cross at a crosswalk, then the vehicle follows a white Toyota Alphard van through."</p>
             <p class="gt-line"><strong>GT tags:</strong> Parked truck, construction, intersection, turn left, following a van</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
+              <span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">VCI-7B · score 4</span>
+            </div>
           </div>
         </div>
         <div class="example-card">
           <div class="example-hdr">scene-0553 · CAM_FRONT · multi-view</div>
           <div class="example-body">
             <video src="videos/nuscenes/scene-0553.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"The scene unfolds at an urban intersection. The vehicle waits at a red light while cyclists cross. A large truck occupies the adjacent lane."</p>
-            <p class="gt-line"><strong>GT tags:</strong> Wait at intersection, bicycle, large truck, peds crossing crosswalk</p>
+            <p class="cap-text">"A vehicle waits at a busy urban intersection with red traffic lights. Pedestrians cross at the crosswalk (some pushing carts); a large bus passes through. Construction cranes are visible against the sky, and a sign reads 'No Turn on Red'."</p>
+            <p class="gt-line"><strong>GT tags:</strong> Wait at intersection, bicycle, large truck, peds crossing crosswalk, ped with stroller</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
+              <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">VCI-7B · score 5</span>
+            </div>
           </div>
         </div>
         <div class="example-card">
           <div class="example-hdr">scene-1077 · CAM_FRONT · night</div>
           <div class="example-body">
             <video src="videos/nuscenes/scene-1077.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"Night driving on a wide arterial road. The vehicle passes a bus stop and construction vehicle at high speed."</p>
+            <p class="cap-text">"Night driving on a well-lit multi-lane road. Traffic is sparse — only a few vehicles visible ahead. Streetlights illuminate road barriers and trees, while city buildings glow faintly in the distance."</p>
             <p class="gt-line"><strong>GT tags:</strong> Night, big street, bus stop, high speed, construction vehicle</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
+              <span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">VCI-7B · score 4</span>
+            </div>
           </div>
         </div>
         <div class="example-card">
           <div class="example-hdr">scene-1094 · CAM_FRONT · night / rain</div>
           <div class="example-body">
             <video src="videos/nuscenes/scene-1094.mp4" controls muted playsinline loop style="width:100%;border-radius:10px;margin-bottom:10px"></video>
-            <p class="cap-text">"Night driving on wet roads after rain. Multiple pedestrians visible. A jaywalker crosses mid-block. Difficult lighting with reflections on the wet surface."</p>
+            <p class="cap-text">"A busy nighttime intersection at the illuminated 'Holland Road Shopping Centre'. Cars, trucks, and pedestrians animate the crossing. The view then becomes a first-person drive down a quieter, rain-slicked urban road."</p>
             <p class="gt-line"><strong>GT tags:</strong> Night, after rain, many peds, PMD, jaywalker, truck, scooter</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span>
+              <span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">VCI-7B · score 4</span>
+            </div>
           </div>
         </div>
       </div>
