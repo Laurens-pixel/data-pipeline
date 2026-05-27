@@ -4262,20 +4262,36 @@ video:-webkit-full-screen {
       <div style="display:grid;grid-template-columns:1fr 280px;gap:20px" class="model-layout">
         <div>
           <div class="example-card">
-            <div class="example-hdr">TASK 327 · supermarket · window 768–1023</div>
+            <div class="example-hdr">TASK 327 · supermarket · ep 685046 · window 768–1023</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm reaches out to pick up a purple vegetable from the table and places it into the shopping cart."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve onion from the shelf</p>
-              <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B</span></div>
+              <video src="videos/agibot/327_685046_w768.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm reaches out to pick up a purple vegetable from the table and places it into the shopping cart."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm reaches out to pick up a purple vegetable from the table and places it into the shopping cart.",
+  "action": "grasp",
+  "object": "purple vegetable"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Retrieve onion from the shelf.</p>
+              <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">Gemma4-E4B · score 5</span></div>
             </div>
           </div>
           <div class="example-card">
-            <div class="example-hdr">TASK 327 · supermarket · window 0–255</div>
+            <div class="example-hdr">TASK 327 · supermarket · ep 685046 · window 0–255</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm reaches into a tray of vegetables, grasps a tomato, and places it in the shopping cart."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve shiitake mushroom from the shelf</p>
+              <video src="videos/agibot/327_685046_w0.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm reaches into a tray of vegetables, grasps a tomato, and places it in the shopping cart."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm reaches into a tray of vegetables, grasps a tomato, and places it in the shopping cart.",
+  "action": "grasp",
+  "object": "tomato"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Retrieve shiitake mushroom from the shelf.</p>
               <div class="verdict-row"><span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">tomato ≠ mushroom</span></div>
             </div>
           </div>
@@ -4304,21 +4320,37 @@ video:-webkit-full-screen {
       <div style="display:grid;grid-template-columns:1fr 280px;gap:20px" class="model-layout">
         <div>
           <div class="example-card">
-            <div class="example-hdr">TASK 352 · fridge · window 0–255</div>
+            <div class="example-hdr">TASK 354 · shelf · ep 671198 · window 0–255</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm opens the refrigerator door, reaches inside, and retrieves a bottle of sauce from the lower shelf."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve sauce bottle from the fridge</p>
+              <video src="videos/agibot/354_671198_w0.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm reaches toward the shelf and grasps a package of dried meat."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm reaches toward the shelf and grasps a package of dried meat.",
+  "action": "grasp",
+  "object": "package of dried meat"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Retrieve from the shelf.</p>
               <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span></div>
             </div>
           </div>
           <div class="example-card">
-            <div class="example-hdr">TASK 327 · supermarket · window 512–767</div>
+            <div class="example-hdr">TASK 327 · supermarket · ep 685046 · window 0–255</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm picks up an orange carrot from the table and places it into the shopping cart."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve corn from the shelf</p>
-              <div class="verdict-row"><span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">carrot ≠ corn</span></div>
+              <video src="videos/agibot/327_685046_w0.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm reaches toward the produce display and grasps a red bell pepper."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm reaches toward the produce display and grasps a red bell pepper.",
+  "action": "grasp",
+  "object": "red bell pepper"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Retrieve shiitake mushroom from the shelf.</p>
+              <div class="verdict-row"><span class="verdict bad">✗ INCORRECT</span><span class="judge-lbl">red bell pepper ≠ mushroom</span></div>
             </div>
           </div>
         </div>
@@ -4345,11 +4377,19 @@ video:-webkit-full-screen {
       <div style="display:grid;grid-template-columns:1fr 280px;gap:20px" class="model-layout">
         <div>
           <div class="example-card">
-            <div class="example-hdr">TASK 352 · fridge</div>
+            <div class="example-hdr">TASK 352 · fridge · ep 671452 · window 512–767</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm methodically opens the refrigerator door, scans the interior, and carefully extracts what appears to be a bottle of soy sauce from the middle shelf using a precise pinch grip."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve sauce bottle from the fridge</p>
+              <video src="videos/agibot/352_671452_w512.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm moves forward and grasps a green tea bottle from the refrigerator shelf, lifting it slightly."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm moves forward and grasps a green tea bottle from the refrigerator shelf, lifting it slightly.",
+  "action": "grasp",
+  "object": "green tea bottle"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Pick up the green tea from the fridge with the left arm.</p>
               <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span></div>
             </div>
           </div>
@@ -4377,12 +4417,20 @@ video:-webkit-full-screen {
       <div style="display:grid;grid-template-columns:1fr 280px;gap:20px" class="model-layout">
         <div>
           <div class="example-card">
-            <div class="example-hdr">TASK 327 · supermarket</div>
+            <div class="example-hdr">TASK 327 · supermarket · ep 685046 · window 768–1023</div>
             <div class="example-body">
-              <div class="vid-thumb robot">🤖</div>
-              <p class="cap-text">"The robotic arm navigates to a produce display, identifies what appears to be a round green vegetable, and places it into the shopping cart with a smooth overhead motion."</p>
-              <p class="gt-line"><strong>GT:</strong> Retrieve cabbage from the shelf</p>
-              <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">"round green vegetable" = cabbage</span></div>
+              <video src="videos/agibot/327_685046_w768.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+              <p class="cap-text" style="margin:0 0 4px">"The robotic arm extends towards a purple vegetable on the shelf, grasps it with its gripper, lifts it, and then moves it to the right before releasing it into the shopping cart."</p>
+              <details style="margin-bottom:8px">
+                <summary class="code-summary" style="text-align:left;padding:3px 0;font-size:0.7rem">full pipeline output</summary>
+                <pre style="font-size:0.72rem;background:var(--bg-deep);border-radius:6px;padding:8px;overflow-x:auto;margin-top:6px;white-space:pre-wrap">{
+  "caption": "The robotic arm extends towards a purple vegetable on the shelf, grasps it with its gripper, lifts it, and then moves it to the right before releasing it into the shopping cart.",
+  "action": "grasp and place",
+  "object": "purple vegetable"
+}</pre>
+              </details>
+              <p class="gt-line"><strong>GT:</strong> Retrieve onion from the shelf.</p>
+              <div class="verdict-row"><span class="verdict ok">✓ CORRECT</span><span class="judge-lbl">purple vegetable = onion</span></div>
             </div>
           </div>
         </div>
