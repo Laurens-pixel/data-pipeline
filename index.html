@@ -4457,17 +4457,17 @@ video:-webkit-full-screen {
   <div class="section" id="benchmarks">
     <div class="tagline">Throughput &amp; Benchmarks</div>
     <p class="section-lead">
-      InHARD industrial assembly dataset · 2 <strong>A100 40 GB</strong> GPUs · Qwen 2.5-VL captioning +
-      VCInspector-7B + Gemma4-E4B judges · STREAMING mode. Rate: 256 SBU/hr (2 GPU-equivalents).
+      InHARD industrial assembly dataset · <strong>2,711 videos · 2.7 h raw footage</strong> ·
+      2 A100 40 GB GPUs · Qwen 2.5-VL captioning + VCInspector-7B + Gemma4-E4B judges · STREAMING mode.
     </p>
 
     <!-- Summary stat callouts -->
     <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px">
       <div class="stat-mini"><div class="v">2,711</div><div class="l">videos processed</div></div>
+      <div class="stat-mini"><div class="v">2.7 h</div><div class="l">raw footage</div></div>
       <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">26.3</div><div class="l">videos / min</div></div>
       <div class="stat-mini"><div class="v">103 min</div><div class="l">pipeline time</div></div>
       <div class="stat-mini"><div class="v" style="color:#16a34a">1.6×</div><div class="l">faster than real-time</div></div>
-      <div class="stat-mini"><div class="v">444</div><div class="l">SBU total</div></div>
       <div class="stat-mini"><div class="v">0.16</div><div class="l">SBU / video</div></div>
     </div>
 
@@ -4485,42 +4485,26 @@ video:-webkit-full-screen {
       </p>
     </div>
 
-    <!-- Run comparison table -->
+    <!-- Run config table -->
     <div class="card-surface" style="padding:0;overflow:hidden">
       <div class="table-wrap">
         <table style="width:100%;border-collapse:collapse">
           <thead>
             <tr>
-              <th>Dataset · Config</th><th>GPUs</th><th>Mode</th><th>Videos</th><th>Wall-clock</th><th>SBU/video</th>
+              <th>Config</th><th>GPUs</th><th>Mode</th><th>Videos</th><th>Raw footage</th><th>Wall-clock</th><th>SBU total</th><th>SBU/video</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>AgiBotWorld · 1 GPU, ffmpeg-cpu</td><td>1</td>
-              <td><span class="mode-s batch">BATCH</span></td>
-              <td>200</td><td>23.5 min</td><td>1.07</td>
-            </tr>
-            <tr>
-              <td>AgiBotWorld · 2 GPU, pynvc <span style="font-size:.68rem;color:var(--text-muted)">(CPU fallback)</span></td><td>2</td>
-              <td><span class="mode-s stream">STREAMING</span></td>
-              <td>200</td><td>14.1 min</td><td>1.28</td>
-            </tr>
-            <tr>
-              <td>AgiBotWorld · 3 GPU, dual judge <span style="font-size:.68rem;color:var(--text-muted)">(timeout — sequential judge)</span></td><td>3</td>
-              <td><span class="mode-s stream">STREAMING</span></td>
-              <td>2,587</td><td>8 hr+ (timeout)</td><td>—</td>
-            </tr>
             <tr class="bench-row-hl">
-              <td>InHARD · 2 GPU, dual judge <span style="font-size:.68rem;color:var(--text-muted)">(batched inference fix)</span></td><td>2</td>
+              <td>Qwen caption + VCI-7B + Gemma4-E4B judge</td><td>2</td>
               <td><span class="mode-s stream">STREAMING</span></td>
-              <td>2,711</td><td><strong>103 min</strong></td><td><strong>0.16</strong></td>
+              <td>2,711</td><td>2.7 h</td><td>103 min</td><td>444</td><td>0.16</td>
             </tr>
           </tbody>
         </table>
       </div>
       <p style="font-size:.75rem;color:var(--text-muted);padding:10px 16px">
-        InHARD clips avg ~5 s (pre-segmented actions). AgiBotWorld clips avg ~50 s. Lower SBU/video on InHARD reflects shorter input — both pipelines process similar raw video hours per SBU.
-        The 3-GPU AgiBotWorld timeout was caused by sequential per-item judge inference; the batched fix resolved it.
+        Pre-segmented action clips, avg ~5 s each · A100 40 GB · 256 SBU/hr (2 GPU-equivalents @ 128 SBU/hr each)
       </p>
     </div>
   </div>
