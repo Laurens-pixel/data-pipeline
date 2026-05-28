@@ -4712,30 +4712,75 @@ video:-webkit-full-screen {
     <div class="eval-tab-panel" id="ds-youcook2">
       <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
         <strong>YouCook2</strong> — 4,472 cooking procedure videos · <strong>24.5 h</strong> total footage · step-level GT annotations.
-        Captions generated on variable-length windows aligned to recipe steps.
+        Each clip is one recipe step; the full clip is one caption window.
       </p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" class="cards-grid">
+
         <div class="example-card">
-          <div class="example-hdr">Video -AwyG1JcMp8 · step 0</div>
+          <div class="example-hdr">M8SHMUBnm4A · step 3 · 9 s</div>
           <div class="example-body">
-            <div class="vid-thumb cooking">🥩</div>
-            <p class="cap-text">"Add minced meat, chopped green onions, garlic, and chili flakes to the mixture and mix thoroughly."</p>
+            <video src="videos/youcook2/eggs.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+            <p class="cap-text" style="margin:0 0 4px">"Pour beaten eggs into a hot pan."</p>
+            <p class="gt-line"><strong>GT:</strong> pour the eggs into the pan</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span>
+              <span class="judge-lbl">VCI-7B · Gemma4</span>
+            </div>
           </div>
         </div>
+
         <div class="example-card">
-          <div class="example-hdr">Video -AwyG1JcMp8 · step 1</div>
+          <div class="example-hdr">9guuyTr8EUg · step 2 · 7 s</div>
           <div class="example-body">
-            <div class="vid-thumb cooking">🥬</div>
-            <p class="cap-text">"Fold and seal the cabbage leaf around the filling."</p>
+            <video src="videos/youcook2/oil.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+            <p class="cap-text" style="margin:0 0 4px">"Pour oil into a heated wok."</p>
+            <p class="gt-line"><strong>GT:</strong> pour oil into the wok</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span>
+              <span class="judge-lbl">VCI-7B · Gemma4</span>
+            </div>
           </div>
         </div>
+
         <div class="example-card">
-          <div class="example-hdr">Video -AwyG1JcMp8 · step 2</div>
+          <div class="example-hdr">EkuM7L31bMQ · step 1 · 8 s</div>
           <div class="example-body">
-            <div class="vid-thumb cooking">🔥</div>
-            <p class="cap-text">"Place triangular samosas on a baking sheet."</p>
+            <video src="videos/youcook2/cornstarch.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+            <p class="cap-text" style="margin:0 0 4px">"Mix cornstarch with 3 tablespoons of water in a small bowl."</p>
+            <p class="gt-line"><strong>GT:</strong> put cornstarch in a small bowl and mix with water</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span>
+              <span class="judge-lbl">VCI-7B · Gemma4</span>
+            </div>
           </div>
         </div>
+
+        <div class="example-card">
+          <div class="example-hdr">2heP32bqOV0 · step 2 · 21 s</div>
+          <div class="example-body">
+            <video src="videos/youcook2/onion.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+            <p class="cap-text" style="margin:0 0 4px">"Slice an onion into thin rounds on a cutting board."</p>
+            <p class="gt-line"><strong>GT:</strong> cut the onion into slices</p>
+            <div class="verdict-row">
+              <span class="verdict ok">✓ CORRECT</span>
+              <span class="judge-lbl">VCI-7B · Gemma4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-hdr">-AwyG1JcMp8 · step 2 · 21 s</div>
+          <div class="example-body">
+            <video src="videos/youcook2/samosa.mp4" muted playsinline loop autoplay style="width:100%;border-radius:8px;display:block;margin-bottom:10px"></video>
+            <p class="cap-text" style="margin:0 0 4px">"Place triangular samosas on a baking sheet."</p>
+            <p class="gt-line"><strong>GT:</strong> place the dumplings above a pot of boiling water</p>
+            <div class="verdict-row">
+              <span class="verdict bad">✗ INCORRECT</span>
+              <span class="judge-lbl">samosas ≠ dumplings</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
