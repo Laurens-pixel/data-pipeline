@@ -3951,21 +3951,20 @@ video:-webkit-full-screen {
     .stat-num  { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
     .stat-lbl  { font-family: 'Fira Code', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 4px; }
 
-    .pipe-row  { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin: 24px 0; }
-    .pipe-box  { background: var(--bg-elevated); border: 1px solid var(--border-light); border-radius: 12px; padding: 10px 14px; font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 500; text-align: center; min-width: 110px; box-shadow: var(--shadow-sm); transition: transform .15s, box-shadow .15s, border-color .15s, background .15s; cursor: pointer; user-select: none; }
-    .pipe-box:hover  { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    .pipe-box.gpu    { border-color: #a855f7; background: #faf5ff; }
-    .pipe-box.opt    { border-color: var(--honey-bronze); background: rgba(212,148,10,.06); border-style: dashed; }
-    .pipe-box.pipe-active { border-color: var(--cool-horizon) !important; border-style: solid !important; background: rgba(59,130,246,.09) !important; transform: translateY(-2px); box-shadow: 0 0 0 2.5px rgba(59,130,246,.22), var(--shadow-md); }
-    .pipe-icon { font-size: 1.1rem; margin-bottom: 3px; }
-    .pipe-sub  { font-size: 0.65rem; color: var(--text-muted); font-family: 'Inter', sans-serif; margin-top: 2px; }
-    .pipe-arr  { color: var(--border-light); font-size: 1rem; padding: 0 3px; flex-shrink: 0; }
-    .pipe-desc { display:none; margin-top:14px; padding:14px 18px; border-radius:12px; border:1.5px solid var(--cool-horizon); background:rgba(59,130,246,.04); font-size:0.82rem; line-height:1.6; animation: fadeIn .15s ease; }
-    .pipe-desc-head { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+    .pipe-layout { display:grid; grid-template-columns:160px 1fr; gap:20px; align-items:start; margin:20px 0; }
+    .pipe-row    { display:flex; flex-direction:column; }
+    .pipe-box    { background:var(--bg-elevated); border:1px solid var(--border-light); border-radius:10px; padding:9px 16px; font-family:'Fira Code',monospace; font-size:0.80rem; font-weight:500; text-align:center; box-shadow:var(--shadow-sm); transition:transform .15s, box-shadow .15s, border-color .15s, background .15s; cursor:pointer; user-select:none; }
+    .pipe-box:hover  { transform:translateX(3px); box-shadow:var(--shadow-md); }
+    .pipe-box.gpu    { border-color:#a855f7; background:#faf5ff; }
+    .pipe-box.opt    { border-color:var(--honey-bronze); background:rgba(212,148,10,.06); border-style:dashed; }
+    .pipe-box.pipe-active { border-color:var(--cool-horizon) !important; border-style:solid !important; background:rgba(59,130,246,.09) !important; transform:translateX(3px); box-shadow:0 0 0 2.5px rgba(59,130,246,.22),var(--shadow-md); }
+    .pipe-arr    { text-align:center; color:var(--border-light); font-size:0.85rem; line-height:1; padding:3px 0; user-select:none; }
+    .pipe-desc   { border:1.5px solid var(--border-light); border-radius:12px; padding:16px 18px; background:var(--bg-elevated); font-size:0.82rem; line-height:1.6; }
+    .pipe-desc-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
     .pipe-desc-name { font-family:'Fira Code',monospace; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--cool-horizon); }
-    .pipe-desc-res  { font-family:'Fira Code',monospace; font-size:0.65rem; color:var(--text-muted); padding:1px 8px; border-radius:20px; border:1px solid var(--border-light); background:var(--bg-elevated); }
+    .pipe-desc-res  { font-family:'Fira Code',monospace; font-size:0.65rem; color:var(--text-muted); padding:1px 8px; border-radius:20px; border:1px solid var(--border-light); background:var(--bg-surface); }
     .pipe-desc-text { margin:0; color:var(--text-secondary); }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+    .pipe-desc-hint { color:var(--text-muted); font-size:0.78rem; font-style:italic; }
 
     .choice-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
     .choice-card { background: var(--bg-elevated); border: 1px dashed var(--border-light); border-radius: 14px; padding: 14px 18px; flex: 1; min-width: 200px; }
@@ -4025,7 +4024,8 @@ video:-webkit-full-screen {
 
     @media (max-width: 768px) {
       .cam-grid  { grid-template-columns: 1fr; }
-      .pipe-row  { flex-direction: column; align-items: flex-start; }
+      .pipe-layout { grid-template-columns: 1fr; }
+      .pipe-desc   { margin-top: 0; }
       .choice-row { flex-direction: column; }
       .stat-row  { gap: 24px; }
     }
@@ -4135,55 +4135,37 @@ video:-webkit-full-screen {
     </p>
 
     <div class="card-surface">
-      <div class="pipe-row" id="pipe-row">
-        <div class="pipe-box" onclick="selectStage('downloader')" data-stage="downloader">
-          <div class="pipe-icon">⬇️</div>Downloader<div class="pipe-sub">load &amp; remux</div>
+      <div class="pipe-layout">
+        <div class="pipe-row" id="pipe-row">
+          <div class="pipe-box" onclick="selectStage('downloader')" data-stage="downloader">Downloader</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box" onclick="selectStage('frameextract')" data-stage="frameextract">Frame Extract</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box gpu" onclick="selectStage('transnetv2')" data-stage="transnetv2">TransNetV2</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box" onclick="selectStage('transcode')" data-stage="transcode">Clip Transcode</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box" onclick="selectStage('clipframes')" data-stage="clipframes">Clip Frames</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box gpu" onclick="selectStage('embedding')" data-stage="embedding">Embedding</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box gpu" onclick="selectStage('vllmprep')" data-stage="vllmprep">Vllm Prep</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box gpu" onclick="selectStage('caption')" data-stage="caption">Caption</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box opt gpu" onclick="selectStage('judge')" data-stage="judge">Judge</div>
+          <div class="pipe-arr">↓</div>
+          <div class="pipe-box" onclick="selectStage('writer')" data-stage="writer">ClipWriter</div>
         </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box" onclick="selectStage('frameextract')" data-stage="frameextract">
-          <div class="pipe-icon">🎞️</div>Frame Extract<div class="pipe-sub">ffmpeg / GPU</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box gpu" onclick="selectStage('transnetv2')" data-stage="transnetv2">
-          <div class="pipe-icon">✂️</div>TransNetV2<div class="pipe-sub">shot detect · GPU ¼</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box" onclick="selectStage('transcode')" data-stage="transcode">
-          <div class="pipe-icon">🎬</div>Clip Transcode<div class="pipe-sub">trim &amp; encode</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box" onclick="selectStage('clipframes')" data-stage="clipframes">
-          <div class="pipe-icon">🖼️</div>Clip Frames<div class="pipe-sub">full-res decode</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box gpu" onclick="selectStage('embedding')" data-stage="embedding">
-          <div class="pipe-icon">🔢</div>Embedding<div class="pipe-sub">GPU ¼ · see below</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box gpu" onclick="selectStage('vllmprep')" data-stage="vllmprep">
-          <div class="pipe-icon">📋</div>Vllm Prep<div class="pipe-sub">window &amp; tokenize</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box gpu" onclick="selectStage('caption')" data-stage="caption">
-          <div class="pipe-icon">💬</div>Caption<div class="pipe-sub">GPU 1.0 · see below</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box opt gpu" onclick="selectStage('judge')" data-stage="judge">
-          <div class="pipe-icon">⚖️</div>Judge<div class="pipe-sub">optional · GPU ½</div>
-        </div>
-        <span class="pipe-arr">→</span>
-        <div class="pipe-box" onclick="selectStage('writer')" data-stage="writer">
-          <div class="pipe-icon">💾</div>ClipWriter<div class="pipe-sub">parquet + JSON</div>
-        </div>
-      </div>
 
-      <!-- Stage description panel — populated by selectStage() -->
-      <div class="pipe-desc" id="pipe-desc">
-        <div class="pipe-desc-head">
-          <span class="pipe-desc-name" id="pipe-desc-name"></span>
-          <span class="pipe-desc-res"  id="pipe-desc-res"></span>
+        <!-- Stage description panel — populated by selectStage() -->
+        <div class="pipe-desc" id="pipe-desc">
+          <div class="pipe-desc-head">
+            <span class="pipe-desc-name" id="pipe-desc-name"></span>
+            <span class="pipe-desc-res"  id="pipe-desc-res"></span>
+          </div>
+          <p class="pipe-desc-text" id="pipe-desc-text"><span class="pipe-desc-hint">← click a stage to learn more</span></p>
         </div>
-        <p class="pipe-desc-text" id="pipe-desc-text"></p>
       </div>
 
       <div class="choice-row" style="margin-top:20px">
@@ -5159,12 +5141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pipe-desc-name').textContent = info.name;
     document.getElementById('pipe-desc-res').textContent  = info.res;
     document.getElementById('pipe-desc-text').textContent = info.desc;
-    const panel = document.getElementById('pipe-desc');
-    panel.style.display = 'block';
-    // re-trigger animation
-    panel.style.animation = 'none';
-    panel.offsetHeight; // reflow
-    panel.style.animation = '';
   };
 
   // ── Tab switcher (generic) ────────────────────────────────────────────────
