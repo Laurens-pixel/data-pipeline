@@ -3951,15 +3951,14 @@ video:-webkit-full-screen {
     .stat-num  { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
     .stat-lbl  { font-family: 'Fira Code', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 4px; }
 
-    .pipe-layout { display:grid; grid-template-columns:160px 1fr; gap:20px; align-items:start; margin:20px 0; }
-    .pipe-row    { display:flex; flex-direction:column; }
-    .pipe-box    { background:var(--bg-elevated); border:1px solid var(--border-light); border-radius:10px; padding:9px 16px; font-family:'Fira Code',monospace; font-size:0.80rem; font-weight:500; text-align:center; box-shadow:var(--shadow-sm); transition:transform .15s, box-shadow .15s, border-color .15s, background .15s; cursor:pointer; user-select:none; }
+    .pipe-layout { display:flex; justify-content:center; align-items:flex-start; gap:32px; margin:20px 0; }
+    .pipe-row    { display:flex; flex-direction:column; flex-shrink:0; }
+    .pipe-box    { background:var(--bg-elevated); border:1px solid var(--border-light); border-radius:10px; padding:9px 20px; font-family:'Fira Code',monospace; font-size:0.80rem; font-weight:500; text-align:center; box-shadow:var(--shadow-sm); transition:transform .15s, box-shadow .15s, border-color .15s, background .15s; cursor:pointer; user-select:none; }
     .pipe-box:hover  { transform:translateX(3px); box-shadow:var(--shadow-md); }
     .pipe-box.gpu    { border-color:#a855f7; background:#faf5ff; }
-    .pipe-box.opt    { border-color:var(--honey-bronze); background:rgba(212,148,10,.06); border-style:dashed; }
     .pipe-box.pipe-active { border-color:var(--cool-horizon) !important; border-style:solid !important; background:rgba(59,130,246,.09) !important; transform:translateX(3px); box-shadow:0 0 0 2.5px rgba(59,130,246,.22),var(--shadow-md); }
     .pipe-arr    { text-align:center; color:var(--border-light); font-size:0.85rem; line-height:1; padding:3px 0; user-select:none; }
-    .pipe-desc   { border:1.5px solid var(--border-light); border-radius:12px; padding:16px 18px; background:var(--bg-elevated); font-size:0.82rem; line-height:1.6; }
+    .pipe-desc   { flex:0 1 340px; border:1.5px solid var(--border-light); border-radius:12px; padding:16px 18px; background:var(--bg-elevated); font-size:0.82rem; line-height:1.6; }
     .pipe-desc-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
     .pipe-desc-name { font-family:'Fira Code',monospace; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--cool-horizon); }
     .pipe-desc-res  { font-family:'Fira Code',monospace; font-size:0.65rem; color:var(--text-muted); padding:1px 8px; border-radius:20px; border:1px solid var(--border-light); background:var(--bg-surface); }
@@ -4024,8 +4023,8 @@ video:-webkit-full-screen {
 
     @media (max-width: 768px) {
       .cam-grid  { grid-template-columns: 1fr; }
-      .pipe-layout { grid-template-columns: 1fr; }
-      .pipe-desc   { margin-top: 0; }
+      .pipe-layout { flex-direction: column; align-items: stretch; }
+      .pipe-desc   { flex: none; }
       .choice-row { flex-direction: column; }
       .stat-row  { gap: 24px; }
     }
@@ -4149,11 +4148,11 @@ video:-webkit-full-screen {
           <div class="pipe-arr">↓</div>
           <div class="pipe-box gpu" onclick="selectStage('embedding')" data-stage="embedding">Embedding</div>
           <div class="pipe-arr">↓</div>
-          <div class="pipe-box gpu" onclick="selectStage('vllmprep')" data-stage="vllmprep">Vllm Prep</div>
+          <div class="pipe-box" onclick="selectStage('vllmprep')" data-stage="vllmprep">Vllm Prep</div>
           <div class="pipe-arr">↓</div>
           <div class="pipe-box gpu" onclick="selectStage('caption')" data-stage="caption">Caption</div>
           <div class="pipe-arr">↓</div>
-          <div class="pipe-box opt gpu" onclick="selectStage('judge')" data-stage="judge">Judge</div>
+          <div class="pipe-box gpu" onclick="selectStage('judge')" data-stage="judge">Judge</div>
           <div class="pipe-arr">↓</div>
           <div class="pipe-box" onclick="selectStage('writer')" data-stage="writer">ClipWriter</div>
         </div>
@@ -4168,35 +4167,6 @@ video:-webkit-full-screen {
         </div>
       </div>
 
-      <div class="choice-row" style="margin-top:20px">
-        <div class="choice-card">
-          <div class="choice-label">Embedding algorithm</div>
-          <div class="choice-chips">
-            <span class="chip on">C-RADIOv4-H</span>
-            <span class="chip">InternVideo2-1B</span>
-          </div>
-          <div class="choice-note">C-RADIO: 2,560-dim · ~2 GB VRAM · 2.5× faster than InternVideo2</div>
-        </div>
-        <div class="choice-card">
-          <div class="choice-label">Captioning model</div>
-          <div class="choice-chips">
-            <span class="chip on">Qwen2.5-VL-7B</span>
-            <span class="chip">Gemma4-E4B</span>
-            <span class="chip">GPT-4o</span>
-            <span class="chip">Gemini 2.5 Flash</span>
-          </div>
-        </div>
-        <div class="choice-card">
-          <div class="choice-label">Prompt variant</div>
-          <div class="choice-chips">
-            <span class="chip on">agibot</span>
-            <span class="chip">youcook2</span>
-            <span class="chip">inhard</span>
-            <span class="chip">av-multiview</span>
-          </div>
-          <div class="choice-note">Domain-specific prompts per dataset</div>
-        </div>
-      </div>
     </div>
 
     <div class="card-surface" style="margin-top:16px;background:rgba(59,130,246,.04);border-color:rgba(59,130,246,.2)">
