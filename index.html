@@ -4001,6 +4001,8 @@ video:-webkit-full-screen {
     .stat-mini .l { font-size: 0.7rem; color: var(--text-muted); }
 
     .bench-row-hl { background: rgba(59,130,246,.06) !important; font-weight: 600; }
+    .bench-ds-row:hover { background: rgba(212,148,10,.05) !important; }
+    .bench-ds-active { background: rgba(212,148,10,.10) !important; font-weight: 600; outline: 2px solid rgba(212,148,10,.35); outline-offset: -2px; }
     .mode-s { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; letter-spacing: .04em; }
     .mode-s.stream { background: rgba(34,197,94,.12); color: #16a34a; }
     .mode-s.batch  { background: rgba(234,179,8,.12);  color: #854d0e; }
@@ -4481,20 +4483,20 @@ video:-webkit-full-screen {
               <th>Dataset</th><th>GPUs</th><th>Mode</th><th>Videos</th><th>Raw footage</th><th>Clips</th><th>Windows</th><th>Wall-clock</th><th>×RT</th><th>SBU/h footage</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="bench-row-hl">
+          <tbody id="bench-table-body">
+            <tr class="bench-ds-row" data-ds="agibot" style="cursor:pointer" title="Click to see stage timing chart">
               <td><strong>AgiBotWorld</strong> <span style="font-size:.68rem;color:var(--text-muted)">robot manip.</span></td><td>3</td>
               <td><span class="mode-s stream">STREAMING</span></td>
               <td>2,587</td><td>36.8 h</td><td>3,237</td><td>15,301</td><td>5 h 8 m</td>
               <td style="color:#16a34a"><strong>7.2×</strong></td><td>53</td>
             </tr>
-            <tr>
+            <tr class="bench-ds-row bench-ds-active" data-ds="youcook2" style="cursor:pointer" title="Click to see stage timing chart">
               <td><strong>YouCook2</strong> <span style="font-size:.68rem;color:var(--text-muted)">cooking procs.</span></td><td>3</td>
               <td><span class="mode-s stream">STREAMING</span></td>
               <td>4,490</td><td>24.5 h</td><td>4,471</td><td>4,471</td><td>2 h 37 m</td>
               <td style="color:#16a34a"><strong>9.4×</strong></td><td>41</td>
             </tr>
-            <tr>
+            <tr class="bench-ds-row" data-ds="inhard" style="cursor:pointer" title="Click to see stage timing chart">
               <td><strong>InHARD Online</strong> <span style="font-size:.68rem;color:var(--text-muted)">indust. assembly</span></td><td>3</td>
               <td><span class="mode-s stream">STREAMING</span></td>
               <td>38</td><td>4.6 h</td><td>292</td><td>1,926</td><td>36 min</td>
@@ -4504,21 +4506,23 @@ video:-webkit-full-screen {
         </table>
       </div>
       <p style="font-size:.75rem;color:var(--text-muted);padding:10px 16px">
-        A100 40 GB · 384 SBU/hr (3 GPU-equivalents @ 128 SBU/hr each) · fixed-stride splitting for YouCook2 (pre-segmented clips); TransNetV2 for AgiBotWorld &amp; InHARD
+        A100 40 GB · 384 SBU/hr (3 GPU-equivalents @ 128 SBU/hr each) · fixed-stride splitting for YouCook2 (pre-segmented clips); TransNetV2 for AgiBotWorld &amp; InHARD ·
+        <strong style="color:var(--honey-bronze)">Click a row to view its stage timing chart ↓</strong>
       </p>
     </div>
 
     <!-- Stage timing chart -->
     <div class="card-surface" style="padding:20px 24px;margin-bottom:20px">
-      <p class="pipeline-step" style="margin-bottom:14px">CUMULATIVE WORKER TIME PER STAGE — YouCook2 4,490 clips · 3-GPU STREAMING · judge batch=16</p>
+      <p id="stage-chart-title" class="pipeline-step" style="margin-bottom:14px">CUMULATIVE WORKER TIME PER STAGE — YouCook2 · 4,490 clips · 3-GPU STREAMING · batch=16</p>
       <canvas id="stage-timing-chart" style="width:100%;max-height:300px"></canvas>
       <div style="display:flex;gap:20px;margin-top:10px;font-size:.72rem;color:var(--text-muted)">
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px"></span>Process time (active GPU/CPU compute)</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px"></span>Bottleneck stage (&gt;90% utilisation)</span>
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:rgba(156,163,175,0.35);border-radius:2px"></span>Idle time (waiting for upstream)</span>
       </div>
-      <p style="font-size:.72rem;color:var(--text-muted);margin-top:6px">
+      <p id="stage-chart-note" style="font-size:.72rem;color:var(--text-muted);margin-top:6px">
         JudgeStage (VCI-7B + Gemma4-E4B, batch=16) reaches <strong style="color:#dc2626">99.9% utilisation</strong> on YouCook2 —
-        fast captioning keeps judges continuously fed. AgiBotWorld (more windows per clip) drops to <strong>80.1%</strong> (VllmPrepStage at 50.8% becomes the new bottleneck).
+        fast captioning keeps judges continuously fed.
       </p>
     </div>
 
@@ -4947,7 +4951,7 @@ video:-webkit-full-screen {
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ── Stage timing chart ────────────────────────────────────────────────────
+  // ── Stage timing chart (interactive: click table row to switch dataset) ───
   const stageCtx = document.getElementById('stage-timing-chart');
   if (stageCtx) {
     const isDark = document.documentElement.classList.contains('dark') ||
@@ -4955,11 +4959,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
     const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-    const labels = ['VideoDownloader', 'FixedStrideExtract', 'ClipTranscoding', 'VllmPrep', 'VllmCaption', 'JudgeStage\n(VCI+Gemma4)', 'ClipWriter'];
-    const procTimes = [623, 1, 6457, 3169, 2952, 9118, 406];
-    const idleTimes = [32694, 9019, 25371, 13820, 14413, 2, 8747];
+    // Unified stage labels across all three datasets
+    const STAGE_LABELS = [
+      'VideoDownloader',
+      'FrameExtract /\nFixedStride',
+      'TransNetV2',
+      'ClipTranscoding',
+      'VllmPrep',
+      'VllmCaption',
+      'JudgeStage\n(VCI+Gemma4)',
+      'ClipWriter'
+    ];
 
-    new Chart(stageCtx, {
+    const DATASETS = {
+      agibot: {
+        title: 'CUMULATIVE WORKER TIME — AgiBotWorld · 2,587 videos · 3-GPU STREAMING · batch=16',
+        note: 'JudgeStage <strong style="color:#dc2626">80.1%</strong> utilisation · VllmPrepStage <strong style="color:#dc2626">50.8%</strong> — new bottleneck after batch-size increase from 4→16.',
+        proc: [442,  9913,  593, 11208, 16926,  8935, 12925,  236],
+        idle: [19528, 10127, 15303, 11101, 16422,  6823,  3208, 15979]
+      },
+      youcook2: {
+        title: 'CUMULATIVE WORKER TIME — YouCook2 · 4,490 clips · 3-GPU STREAMING · batch=16',
+        note: 'JudgeStage <strong style="color:#dc2626">99.9%</strong> utilisation — clear bottleneck; fast captioning (no TransNetV2, short clips) keeps judges fed continuously.',
+        proc: [623,    1,    0,  6457,  3169,  2952,  9118,  406],
+        idle: [32694, 9019,   0, 25371, 13820, 14413,     2, 8747]
+      },
+      inhard: {
+        title: 'CUMULATIVE WORKER TIME — InHARD Online · 38 sessions · 3-GPU STREAMING · batch=16',
+        note: 'VllmPrepStage <strong style="color:#dc2626">100%</strong> utilisation · VideoFrameExtraction <strong style="color:#dc2626">100%</strong> — long 400–650s videos produce many windows; JudgeStage (760s) is no longer the bottleneck.',
+        proc: [30,  3287,   90,  1311, 13338,  1040,   760,   16],
+        idle: [124,    0,  981,   630,     0,   870,  1158, 1897]
+      }
+    };
+
+    function getBarColors(proc, idle) {
+      return proc.map((p, i) => {
+        const total = p + idle[i];
+        return (total > 0 && p / total > 0.9) ? '#dc2626' : '#3b82f6';
+      });
+    }
+
+    const procTimes = DATASETS.youcook2.proc;
+    const idleTimes = DATASETS.youcook2.idle;
+    const labels = STAGE_LABELS;
+
+    const stageChart = new Chart(stageCtx, {
       type: 'bar',
       data: {
         labels,
@@ -4967,7 +5011,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Process time (s)',
             data: procTimes,
-            backgroundColor: procTimes.map((_, i) => i === 5 ? '#dc2626' : '#3b82f6'),
+            backgroundColor: getBarColors(procTimes, idleTimes),
             borderRadius: 4,
             order: 1,
           },
@@ -4995,8 +5039,10 @@ document.addEventListener('DOMContentLoaded', () => {
               },
               afterBody: (items) => {
                 const i = items[0].dataIndex;
-                const proc = procTimes[i], idle = idleTimes[i];
-                const util = (proc / (proc + idle) * 100).toFixed(1);
+                const proc = stageChart.data.datasets[0].data[i];
+                const idle = stageChart.data.datasets[1].data[i];
+                const total = proc + idle;
+                const util = total > 0 ? (proc / total * 100).toFixed(1) : '0.0';
                 return [`Utilisation: ${util}%`];
               },
             },
@@ -5018,6 +5064,27 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         },
       },
+    });
+
+    // ── Dataset row switcher ──────────────────────────────────────────────────
+    function switchDataset(key) {
+      const ds = DATASETS[key];
+      if (!ds) return;
+      stageChart.data.datasets[0].data = ds.proc;
+      stageChart.data.datasets[0].backgroundColor = getBarColors(ds.proc, ds.idle);
+      stageChart.data.datasets[1].data = ds.idle;
+      stageChart.update();
+      const titleEl = document.getElementById('stage-chart-title');
+      if (titleEl) titleEl.textContent = ds.title;
+      const noteEl = document.getElementById('stage-chart-note');
+      if (noteEl) noteEl.innerHTML = ds.note;
+      document.querySelectorAll('.bench-ds-row').forEach(r => {
+        r.classList.toggle('bench-ds-active', r.dataset.ds === key);
+      });
+    }
+
+    document.querySelectorAll('.bench-ds-row').forEach(row => {
+      row.addEventListener('click', () => switchDataset(row.dataset.ds));
     });
   }
 
