@@ -4520,7 +4520,11 @@ video:-webkit-full-screen {
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px"></span>Bottleneck stage (&gt;90% utilisation)</span>
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:rgba(156,163,175,0.35);border-radius:2px"></span>Idle time (waiting for upstream)</span>
       </div>
-      <p id="stage-chart-note" style="font-size:.72rem;color:var(--text-muted);margin-top:6px">
+      <p style="font-size:.72rem;color:var(--text-muted);margin-top:4px">
+        <em>VideoFrameExtract</em> = frame decode for TransNetV2 shot detection (AgiBotWorld, InHARD) ·
+        <em>FixedStrideExtract</em> = whole-clip fixed stride, no shot detection (YouCook2)
+      </p>
+      <p id="stage-chart-note" style="font-size:.72rem;color:var(--text-muted);margin-top:4px">
         JudgeStage (VCI-7B + Gemma4-E4B, batch=16) reaches <strong style="color:#dc2626">99.9% utilisation</strong> on YouCook2 —
         fast captioning keeps judges continuously fed.
       </p>
@@ -4959,10 +4963,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
     const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-    // Unified stage labels across all three datasets
+    // Stage labels — VideoFrameExtract and FixedStrideExtract are separate,
+    // mutually exclusive stages: only one is non-zero per dataset.
     const STAGE_LABELS = [
       'VideoDownloader',
-      'FrameExtract /\nFixedStride',
+      'VideoFrameExtract',
+      'FixedStrideExtract',
       'TransNetV2',
       'ClipTranscoding',
       'VllmPrep',
@@ -4971,24 +4977,25 @@ document.addEventListener('DOMContentLoaded', () => {
       'ClipWriter'
     ];
 
+    //                       VidDL  VidFrEx  FixedStr  TNetV2  ClipTx  VllmPr   VllmCap  Judge   CliWr
     const DATASETS = {
       agibot: {
         title: 'CUMULATIVE WORKER TIME — AgiBotWorld · 2,587 videos · 3-GPU STREAMING · batch=16',
         note: 'JudgeStage <strong style="color:#dc2626">80.1%</strong> utilisation · VllmPrepStage <strong style="color:#dc2626">50.8%</strong> — new bottleneck after batch-size increase from 4→16.',
-        proc: [442,  9913,  593, 11208, 16926,  8935, 12925,  236],
-        idle: [19528, 10127, 15303, 11101, 16422,  6823,  3208, 15979]
+        proc: [442,  9913,    0,   593, 11208, 16926,  8935, 12925,  236],
+        idle: [19528, 10127,  0, 15303, 11101, 16422,  6823,  3208, 15979]
       },
       youcook2: {
         title: 'CUMULATIVE WORKER TIME — YouCook2 · 4,490 clips · 3-GPU STREAMING · batch=16',
-        note: 'JudgeStage <strong style="color:#dc2626">99.9%</strong> utilisation — clear bottleneck; fast captioning (no TransNetV2, short clips) keeps judges fed continuously.',
-        proc: [623,    1,    0,  6457,  3169,  2952,  9118,  406],
-        idle: [32694, 9019,   0, 25371, 13820, 14413,     2, 8747]
+        note: 'JudgeStage <strong style="color:#dc2626">99.9%</strong> utilisation — clear bottleneck; fast captioning (no TransNetV2, short clips at fixed stride) keeps judges fed continuously.',
+        proc: [623,    0,    1,     0,  6457,  3169,  2952,  9118,  406],
+        idle: [32694,  0, 9019,     0, 25371, 13820, 14413,     2, 8747]
       },
       inhard: {
         title: 'CUMULATIVE WORKER TIME — InHARD Online · 38 sessions · 3-GPU STREAMING · batch=16',
-        note: 'VllmPrepStage <strong style="color:#dc2626">100%</strong> utilisation · VideoFrameExtraction <strong style="color:#dc2626">100%</strong> — long 400–650s videos produce many windows; JudgeStage (760s) is no longer the bottleneck.',
-        proc: [30,  3287,   90,  1311, 13338,  1040,   760,   16],
-        idle: [124,    0,  981,   630,     0,   870,  1158, 1897]
+        note: 'VllmPrepStage <strong style="color:#dc2626">100%</strong> utilisation · VideoFrameExtract <strong style="color:#dc2626">100%</strong> — long 400–650s videos produce many windows; JudgeStage (760s) is no longer the bottleneck.',
+        proc: [30,  3287,    0,    90,  1311, 13338,  1040,   760,   16],
+        idle: [124,    0,    0,   981,   630,     0,   870,  1158, 1897]
       }
     };
 
