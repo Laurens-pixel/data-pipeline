@@ -4068,8 +4068,8 @@ video:-webkit-full-screen {
 
     <div class="hero-pill-row">
       <span class="hero-pill">AgiBotWorld · 2,587 videos · 36.8 h</span>
-      <span class="hero-pill">nuScenes · 30 videos · ~10 min</span>
-      <span class="hero-pill">YouCook2 · 4,472 videos · 24.5 h</span>
+      <span class="hero-pill">YouCook2 · 4,490 videos · 24.5 h</span>
+      <span class="hero-pill">InHARD · 38 sessions · 4.6 h</span>
     </div>
 
     <div class="stat-row">
@@ -4457,54 +4457,108 @@ video:-webkit-full-screen {
   <div class="section" id="benchmarks">
     <div class="tagline">Throughput &amp; Benchmarks</div>
     <p class="section-lead">
-      InHARD industrial assembly dataset · <strong>2,711 videos · 2.7 h raw footage</strong> ·
-      2 A100 40 GB GPUs · Qwen 2.5-VL captioning + VCInspector-7B + Gemma4-E4B judges · STREAMING mode.
+      Three domains processed end-to-end on Snellius HPC: <strong>AgiBotWorld</strong> robot manipulation (2,587 videos · 36.8 h),
+      <strong>YouCook2</strong> cooking procedures (4,490 clips · 24.5 h), <strong>InHARD Online</strong> industrial assembly (38 full sessions · 4.6 h).
+      All runs: 3 A100 40 GB GPUs · Qwen 2.5-VL captions · dual judge (VCI-7B + Gemma4-E4B) · batch size 16 · STREAMING mode.
     </p>
 
     <!-- Summary stat callouts -->
     <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px">
-      <div class="stat-mini"><div class="v">2,711</div><div class="l">videos processed</div></div>
-      <div class="stat-mini"><div class="v">2.7 h</div><div class="l">raw footage</div></div>
-      <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">26.3</div><div class="l">videos / min</div></div>
-      <div class="stat-mini"><div class="v">103 min</div><div class="l">pipeline time</div></div>
-      <div class="stat-mini"><div class="v" style="color:#16a34a">1.6×</div><div class="l">faster than real-time</div></div>
-      <div class="stat-mini"><div class="v">0.16</div><div class="l">SBU / video</div></div>
+      <div class="stat-mini"><div class="v">9,115</div><div class="l">videos processed</div></div>
+      <div class="stat-mini"><div class="v">65.9 h</div><div class="l">raw footage total</div></div>
+      <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">21,698</div><div class="l">caption windows</div></div>
+      <div class="stat-mini"><div class="v" style="color:#16a34a">7–9×</div><div class="l">faster than real-time</div></div>
+      <div class="stat-mini"><div class="v">3</div><div class="l">domains tested</div></div>
+      <div class="stat-mini"><div class="v">~3,200</div><div class="l">SBU total</div></div>
+    </div>
+
+    <!-- Multi-dataset run config table -->
+    <div class="card-surface" style="padding:0;overflow:hidden;margin-bottom:20px">
+      <div class="table-wrap">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th>Dataset</th><th>GPUs</th><th>Mode</th><th>Videos</th><th>Raw footage</th><th>Clips</th><th>Windows</th><th>Wall-clock</th><th>×RT</th><th>SBU/h footage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bench-row-hl">
+              <td><strong>AgiBotWorld</strong> <span style="font-size:.68rem;color:var(--text-muted)">robot manip.</span></td><td>3</td>
+              <td><span class="mode-s stream">STREAMING</span></td>
+              <td>2,587</td><td>36.8 h</td><td>3,237</td><td>15,301</td><td>5 h 8 m</td>
+              <td style="color:#16a34a"><strong>7.2×</strong></td><td>53</td>
+            </tr>
+            <tr>
+              <td><strong>YouCook2</strong> <span style="font-size:.68rem;color:var(--text-muted)">cooking procs.</span></td><td>3</td>
+              <td><span class="mode-s stream">STREAMING</span></td>
+              <td>4,490</td><td>24.5 h</td><td>4,471</td><td>4,471</td><td>2 h 37 m</td>
+              <td style="color:#16a34a"><strong>9.4×</strong></td><td>41</td>
+            </tr>
+            <tr>
+              <td><strong>InHARD Online</strong> <span style="font-size:.68rem;color:var(--text-muted)">indust. assembly</span></td><td>3</td>
+              <td><span class="mode-s stream">STREAMING</span></td>
+              <td>38</td><td>4.6 h</td><td>292</td><td>1,926</td><td>36 min</td>
+              <td style="color:#16a34a"><strong>7.6×</strong></td><td>50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.75rem;color:var(--text-muted);padding:10px 16px">
+        A100 40 GB · 384 SBU/hr (3 GPU-equivalents @ 128 SBU/hr each) · fixed-stride splitting for YouCook2 (pre-segmented clips); TransNetV2 for AgiBotWorld &amp; InHARD
+      </p>
     </div>
 
     <!-- Stage timing chart -->
     <div class="card-surface" style="padding:20px 24px;margin-bottom:20px">
-      <p class="pipeline-step" style="margin-bottom:14px">CUMULATIVE WORKER TIME PER STAGE — InHARD 2,711 clips · 2-GPU STREAMING</p>
+      <p class="pipeline-step" style="margin-bottom:14px">CUMULATIVE WORKER TIME PER STAGE — YouCook2 4,490 clips · 3-GPU STREAMING · judge batch=16</p>
       <canvas id="stage-timing-chart" style="width:100%;max-height:300px"></canvas>
       <div style="display:flex;gap:20px;margin-top:10px;font-size:.72rem;color:var(--text-muted)">
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px"></span>Process time (active GPU/CPU compute)</span>
         <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:12px;height:12px;background:rgba(156,163,175,0.35);border-radius:2px"></span>Idle time (waiting for upstream)</span>
       </div>
       <p style="font-size:.72rem;color:var(--text-muted);margin-top:6px">
-        JudgeStage (VCI-7B + Gemma4-E4B sequential) reaches <strong style="color:#dc2626">99.98% utilisation</strong> — clear pipeline bottleneck.
-        All other stages spend the majority of time idle waiting for work.
+        JudgeStage (VCI-7B + Gemma4-E4B, batch=16) reaches <strong style="color:#dc2626">99.9% utilisation</strong> on YouCook2 —
+        fast captioning keeps judges continuously fed. AgiBotWorld (more windows per clip) drops to <strong>80.1%</strong> (VllmPrepStage at 50.8% becomes the new bottleneck).
       </p>
     </div>
 
-    <!-- Run config table -->
+    <!-- Cross-dataset judge accuracy -->
     <div class="card-surface" style="padding:0;overflow:hidden">
       <div class="table-wrap">
         <table style="width:100%;border-collapse:collapse">
           <thead>
             <tr>
-              <th>Config</th><th>GPUs</th><th>Mode</th><th>Videos</th><th>Raw footage</th><th>Wall-clock</th><th>SBU total</th><th>SBU/video</th>
+              <th>Dataset</th><th>VCI-7B (video, ref-free)</th><th>Gemma4-E4B (text+GT)</th><th>Both correct</th><th>Both incorrect</th><th>Agreement</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="bench-row-hl">
-              <td>Qwen caption + VCI-7B + Gemma4-E4B judge</td><td>2</td>
-              <td><span class="mode-s stream">STREAMING</span></td>
-              <td>2,711</td><td>2.7 h</td><td>103 min</td><td>444</td><td>0.16</td>
+            <tr>
+              <td><strong>AgiBotWorld</strong></td>
+              <td>23.5%</td><td>40.4%</td>
+              <td style="color:#16a34a">12.3%</td>
+              <td style="color:#dc2626">48.3%</td>
+              <td>60.6%</td>
+            </tr>
+            <tr>
+              <td><strong>YouCook2</strong></td>
+              <td>64.0%</td><td>53.1%</td>
+              <td style="color:#16a34a">37.7%</td>
+              <td style="color:#dc2626">20.5%</td>
+              <td>58.2%</td>
+            </tr>
+            <tr>
+              <td><strong>InHARD Online</strong></td>
+              <td>95.6% <span style="font-size:.65rem;color:var(--text-muted)">⚠ inflated</span></td><td>24.7%</td>
+              <td style="color:#16a34a">23.3%</td>
+              <td style="color:#dc2626">3.0%</td>
+              <td style="color:#dc2626"><strong>26.3%</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
       <p style="font-size:.75rem;color:var(--text-muted);padding:10px 16px">
-        Pre-segmented action clips, avg ~5 s each · A100 40 GB · 256 SBU/hr (2 GPU-equivalents @ 128 SBU/hr each)
+        InHARD agreement of 26.3% exposes <strong>domain mismatch</strong>: VCI-7B (ActivityNet-trained) defaults to "correct" on 95.6% of unfamiliar industrial assembly clips,
+        while Gemma4-E4B (with GT action text) marks 75% as incorrect. Neither judge was tuned for this domain.
       </p>
     </div>
   </div>
@@ -4527,7 +4581,7 @@ video:-webkit-full-screen {
     <div class="eval-tab-panel active" id="ds-agibot">
       <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
         <strong>AgiBotWorld-Alpha</strong> — 36 tasks · 2,587 videos · <strong>36.8 h</strong> total footage ·
-        15,526 caption windows (256 frames @ 2 fps ≈ 8.5 s). GT from <code>task_info/*.json</code>.
+        15,301 caption windows (256 frames @ 2 fps ≈ 8.5 s). GT from <code>task_info/*.json</code>.
       </p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" class="cards-grid">
         <div class="example-card">
@@ -4560,10 +4614,10 @@ video:-webkit-full-screen {
       </div>
       <div class="card-surface" style="margin-top:14px;padding:16px 20px">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
-          <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">24.0%</div><div class="l">VCI correct (ref-free)</div></div>
-          <div class="stat-mini"><div class="v" style="color:#16a34a">40.6%</div><div class="l">Gemma4 correct (with GT)</div></div>
-          <div class="stat-mini"><div class="v">61.5%</div><div class="l">Inter-judge agreement</div></div>
-          <div class="stat-mini"><div class="v" style="color:#dc2626">48.5%</div><div class="l">Both incorrect (high-conf errors)</div></div>
+          <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">23.5%</div><div class="l">VCI correct (ref-free)</div></div>
+          <div class="stat-mini"><div class="v" style="color:#16a34a">40.4%</div><div class="l">Gemma4 correct (with GT)</div></div>
+          <div class="stat-mini"><div class="v">60.6%</div><div class="l">Inter-judge agreement</div></div>
+          <div class="stat-mini"><div class="v" style="color:#dc2626">48.3%</div><div class="l">Both incorrect (high-conf errors)</div></div>
         </div>
       </div>
     </div>
@@ -4711,8 +4765,8 @@ video:-webkit-full-screen {
     <!-- YouCook2 -->
     <div class="eval-tab-panel" id="ds-youcook2">
       <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:16px">
-        <strong>YouCook2</strong> — 4,472 cooking procedure videos · <strong>24.5 h</strong> total footage · step-level GT annotations.
-        Each clip is one recipe step; the full clip is one caption window.
+        <strong>YouCook2</strong> — 4,490 cooking procedure videos · <strong>24.5 h</strong> total footage · step-level GT annotations.
+        Each clip is one recipe step; the full clip is one caption window (whole-clip fixed-stride, no TransNetV2).
       </p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" class="cards-grid">
 
@@ -4781,6 +4835,18 @@ video:-webkit-full-screen {
           </div>
         </div>
 
+      </div>
+      <div class="card-surface" style="margin-top:14px;padding:16px 20px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+          <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">64.0%</div><div class="l">VCI correct (ref-free)</div></div>
+          <div class="stat-mini"><div class="v" style="color:#16a34a">53.1%</div><div class="l">Gemma4 correct (with GT)</div></div>
+          <div class="stat-mini"><div class="v">58.2%</div><div class="l">Inter-judge agreement</div></div>
+          <div class="stat-mini"><div class="v" style="color:#16a34a">37.7%</div><div class="l">Both correct (high-conf correct)</div></div>
+        </div>
+        <p style="font-size:.72rem;color:var(--text-muted);margin:10px 0 0">
+          YouCook2 is the easiest domain for both judges — cooking actions are well-represented in ActivityNet (VCI) and described clearly in GT annotations (Gemma4).
+          26.4% of windows where only VCI flags as correct likely reflect short clips with ambiguous framing (e.g., overhead pan shots mis-read as video artifacts).
+        </p>
       </div>
     </div>
   </div>
@@ -4889,9 +4955,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
     const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-    const labels = ['VideoDownloader', 'ClipTranscoding', 'VllmPrep', 'VllmCaption', 'JudgeStage\n(VCI+Gemma4)', 'ClipWriter'];
-    const procTimes = [430, 1747, 1057, 1731, 5992, 234];
-    const idleTimes = [13803, 16018, 5019, 4176, 1, 5755];
+    const labels = ['VideoDownloader', 'FixedStrideExtract', 'ClipTranscoding', 'VllmPrep', 'VllmCaption', 'JudgeStage\n(VCI+Gemma4)', 'ClipWriter'];
+    const procTimes = [623, 1, 6457, 3169, 2952, 9118, 406];
+    const idleTimes = [32694, 9019, 25371, 13820, 14413, 2, 8747];
 
     new Chart(stageCtx, {
       type: 'bar',
@@ -4901,7 +4967,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Process time (s)',
             data: procTimes,
-            backgroundColor: procTimes.map((_, i) => i === 4 ? '#dc2626' : '#3b82f6'),
+            backgroundColor: procTimes.map((_, i) => i === 5 ? '#dc2626' : '#3b82f6'),
             borderRadius: 4,
             order: 1,
           },
