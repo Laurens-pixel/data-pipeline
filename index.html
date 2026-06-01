@@ -3951,19 +3951,31 @@ video:-webkit-full-screen {
     .stat-num  { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
     .stat-lbl  { font-family: 'Fira Code', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 4px; }
 
-    .pipe-layout { display:flex; justify-content:center; align-items:flex-start; gap:32px; margin:20px 0; }
-    .pipe-row    { display:flex; flex-direction:column; flex-shrink:0; }
-    .pipe-box    { background:var(--bg-elevated); border:1px solid var(--border-light); border-radius:10px; padding:9px 20px; font-family:'Fira Code',monospace; font-size:0.80rem; font-weight:500; text-align:center; box-shadow:var(--shadow-sm); transition:transform .15s, box-shadow .15s, border-color .15s, background .15s; cursor:pointer; user-select:none; }
-    .pipe-box:hover  { transform:translateX(3px); box-shadow:var(--shadow-md); }
-    .pipe-box.gpu    { border-color:#a855f7; background:#faf5ff; }
-    .pipe-box.pipe-active { border-color:var(--cool-horizon) !important; border-style:solid !important; background:rgba(59,130,246,.09) !important; transform:translateX(3px); box-shadow:0 0 0 2.5px rgba(59,130,246,.22),var(--shadow-md); }
-    .pipe-arr    { text-align:center; color:var(--border-light); font-size:0.85rem; line-height:1; padding:3px 0; user-select:none; }
-    .pipe-desc   { flex:0 1 340px; border:1.5px solid var(--border-light); border-radius:12px; padding:16px 18px; background:var(--bg-elevated); font-size:0.82rem; line-height:1.6; }
+    .pipe-layout  { display:flex; justify-content:center; align-items:flex-start; gap:40px; margin:20px 0; flex-wrap:wrap; }
+    .pipe-col     { display:flex; flex-direction:column; width:260px; }
+    .pipe-box     { width:100%; border-radius:7px; padding:7px 12px; font-family:'Fira Code',monospace; font-size:0.74rem; font-weight:500; text-align:center; box-shadow:var(--shadow-sm); transition:transform .12s, box-shadow .12s; cursor:pointer; user-select:none; border:1.5px solid; }
+    .pipe-box:hover { transform:translateX(3px); box-shadow:var(--shadow-md); }
+    .pipe-box.pipe-active { transform:translateX(4px); box-shadow:0 0 0 2.5px rgba(59,130,246,.28),var(--shadow-md); outline:2px solid rgba(59,130,246,.35); outline-offset:1px; }
+    .ps-ingest  { border-color:#06b6d4; background:rgba(6,182,212,.09); }
+    .ps-vidproc { border-color:#3b82f6; background:rgba(59,130,246,.08); }
+    .ps-gpuemb  { border-color:#a855f7; background:rgba(168,85,247,.08); }
+    .ps-gpucap  { border-color:#f59e0b; background:rgba(245,158,11,.08); }
+    .ps-judge   { border-color:#f59e0b; background:rgba(245,158,11,.06); border-style:dashed; }
+    .ps-outbox  { border-color:#22c55e; background:rgba(34,197,94,.08); }
+    .pipe-arrow-row { display:flex; align-items:center; overflow:visible; }
+    .pipe-arr   { width:260px; flex-shrink:0; text-align:center; color:var(--border-light); font-size:0.85rem; padding:3px 0; user-select:none; }
+    .pipe-arr-label { white-space:nowrap; margin-left:10px; font-family:'Fira Code',monospace; font-size:0.64rem; color:var(--text-muted); font-style:italic; }
+    .pipe-right  { display:flex; flex-direction:column; gap:14px; width:270px; flex-shrink:0; }
+    .pipe-desc   { border:1.5px solid var(--border-light); border-radius:10px; padding:14px 16px; background:var(--bg-elevated); line-height:1.6; }
     .pipe-desc-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
-    .pipe-desc-name { font-family:'Fira Code',monospace; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--cool-horizon); }
-    .pipe-desc-res  { font-family:'Fira Code',monospace; font-size:0.65rem; color:var(--text-muted); padding:1px 8px; border-radius:20px; border:1px solid var(--border-light); background:var(--bg-surface); }
-    .pipe-desc-text { margin:0; color:var(--text-secondary); }
-    .pipe-desc-hint { color:var(--text-muted); font-size:0.78rem; font-style:italic; }
+    .pipe-desc-name { font-family:'Fira Code',monospace; font-size:0.70rem; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--cool-horizon); }
+    .pipe-desc-res  { font-family:'Fira Code',monospace; font-size:0.63rem; color:var(--text-muted); padding:1px 7px; border-radius:20px; border:1px solid var(--border-light); background:var(--bg-surface); }
+    .pipe-desc-text { margin:0; color:var(--text-secondary); font-size:0.78rem; }
+    .pipe-desc-hint { color:var(--text-muted); font-style:italic; }
+    .pipe-legend     { border:1px solid var(--border-light); border-radius:10px; padding:12px 14px; background:var(--bg-elevated); }
+    .pipe-legend-ttl { font-family:'Fira Code',monospace; font-size:0.63rem; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:var(--text-muted); margin-bottom:8px; }
+    .pipe-legend-row { display:flex; flex-direction:column; gap:5px; }
+    .pipe-legend-item{ padding:4px 10px; border-radius:5px; border:1.5px solid; font-family:'Fira Code',monospace; font-size:0.68rem; font-weight:500; }
 
     .choice-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
     .choice-card { background: var(--bg-elevated); border: 1px dashed var(--border-light); border-radius: 14px; padding: 14px 18px; flex: 1; min-width: 200px; }
@@ -4023,8 +4035,8 @@ video:-webkit-full-screen {
 
     @media (max-width: 768px) {
       .cam-grid  { grid-template-columns: 1fr; }
-      .pipe-layout { flex-direction: column; align-items: stretch; }
-      .pipe-desc   { flex: none; }
+      .pipe-layout { flex-direction: column; align-items: center; }
+      .pipe-right  { width: 260px; }
       .choice-row { flex-direction: column; }
       .stat-row  { gap: 24px; }
     }
@@ -4135,38 +4147,55 @@ video:-webkit-full-screen {
 
     <div class="card-surface">
       <div class="pipe-layout">
-        <div class="pipe-row" id="pipe-row">
-          <div class="pipe-box" onclick="selectStage('downloader')" data-stage="downloader">Downloader</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box" onclick="selectStage('frameextract')" data-stage="frameextract">Frame Extract</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box gpu" onclick="selectStage('transnetv2')" data-stage="transnetv2">TransNetV2</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box" onclick="selectStage('transcode')" data-stage="transcode">Clip Transcode</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box" onclick="selectStage('clipframes')" data-stage="clipframes">Clip Frames</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box gpu" onclick="selectStage('embedding')" data-stage="embedding">Embedding</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box" onclick="selectStage('vllmprep')" data-stage="vllmprep">Vllm Prep</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box gpu" onclick="selectStage('caption')" data-stage="caption">Caption</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box gpu" onclick="selectStage('judge')" data-stage="judge">Judge</div>
-          <div class="pipe-arr">↓</div>
-          <div class="pipe-box" onclick="selectStage('writer')" data-stage="writer">ClipWriter</div>
+        <!-- Stage column -->
+        <div id="pipe-row" class="pipe-col">
+          <div class="pipe-box ps-ingest"  onclick="selectStage('downloader')"     data-stage="downloader">VideoDownloader</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Video (MP4)</span></div>
+          <div class="pipe-box ps-ingest"  onclick="selectStage('remux')"           data-stage="remux">RemuxStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Remuxed video</span></div>
+          <div class="pipe-box ps-vidproc" onclick="selectStage('frameextract')"    data-stage="frameextract">VideoFrameExtractionStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Video + decoded frames</span></div>
+          <div class="pipe-box ps-vidproc" onclick="selectStage('transnetv2')"      data-stage="transnetv2">TransNetV2ClipExtractionStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips (shot boundaries)</span></div>
+          <div class="pipe-box ps-vidproc" onclick="selectStage('transcode')"       data-stage="transcode">ClipTranscodingStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Transcoded clips</span></div>
+          <div class="pipe-box ps-vidproc" onclick="selectStage('clipframes')"      data-stage="clipframes">ClipFrameExtractionStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + frame tensors</span></div>
+          <div class="pipe-box ps-gpuemb"  onclick="selectStage('cradioframes')"    data-stage="cradioframes">CRadioFrameCreationStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + C-RADIO frames</span></div>
+          <div class="pipe-box ps-gpuemb"  onclick="selectStage('cradioembedding')" data-stage="cradioembedding">CRadioEmbeddingStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + 2560-d embeddings</span></div>
+          <div class="pipe-box ps-gpucap"  onclick="selectStage('vllmprep')"        data-stage="vllmprep">VllmPrepStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + tokenised input</span></div>
+          <div class="pipe-box ps-gpucap"  onclick="selectStage('caption')"         data-stage="caption">VllmCaptionStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + caption text</span></div>
+          <div class="pipe-box ps-judge"   onclick="selectStage('judge')"           data-stage="judge">JudgeStage</div>
+          <div class="pipe-arrow-row"><div class="pipe-arr">↓</div><span class="pipe-arr-label">Clips + verdicts</span></div>
+          <div class="pipe-box ps-outbox"  onclick="selectStage('writer')"          data-stage="writer">ClipWriterStage</div>
         </div>
 
-        <!-- Stage description panel — populated by selectStage() -->
-        <div class="pipe-desc" id="pipe-desc">
-          <div class="pipe-desc-head">
-            <span class="pipe-desc-name" id="pipe-desc-name"></span>
-            <span class="pipe-desc-res"  id="pipe-desc-res"></span>
+        <!-- Right column: description + legend -->
+        <div class="pipe-right">
+          <div class="pipe-desc" id="pipe-desc">
+            <div class="pipe-desc-head">
+              <span class="pipe-desc-name" id="pipe-desc-name"></span>
+              <span class="pipe-desc-res"  id="pipe-desc-res"></span>
+            </div>
+            <p class="pipe-desc-text" id="pipe-desc-text"><span class="pipe-desc-hint">← click a stage</span></p>
           </div>
-          <p class="pipe-desc-text" id="pipe-desc-text"><span class="pipe-desc-hint">← click a stage to learn more</span></p>
+          <div class="pipe-legend">
+            <div class="pipe-legend-ttl">Legend</div>
+            <div class="pipe-legend-row">
+              <div class="pipe-legend-item ps-ingest">Ingestion</div>
+              <div class="pipe-legend-item ps-vidproc">Video processing</div>
+              <div class="pipe-legend-item ps-gpuemb">GPU — embedding</div>
+              <div class="pipe-legend-item ps-gpucap">GPU — captioning</div>
+              <div class="pipe-legend-item ps-judge">Judge (optional)</div>
+              <div class="pipe-legend-item ps-outbox">Output</div>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
 
     <div class="card-surface" style="margin-top:16px;background:rgba(59,130,246,.04);border-color:rgba(59,130,246,.2)">
@@ -5090,16 +5119,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Pipeline stage click-to-describe ─────────────────────────────────────
   const STAGE_INFO = {
-    downloader:   { name: 'VideoDownloader',          res: 'CPU',              desc: 'Opens the source video file and remuxes it into a standardised container, ensuring a consistent format for all downstream stages.' },
-    frameextract: { name: 'VideoFrameExtractionStage',res: 'CPU / GPU 0.1',    desc: 'Decodes the full video at a tiny 27×48 px resolution using ffmpeg or PyNvVideoCodec; these thumbnail frames are the sole input to the TransNetV2 shot detector.' },
-    transnetv2:   { name: 'TransNetV2ClipExtraction', res: 'GPU ¼',            desc: 'Runs the TransNetV2 neural network on the thumbnail frames to locate scene-change boundaries, producing start/end timestamps for each clip segment.' },
-    transcode:    { name: 'ClipTranscodingStage',     res: 'CPU',              desc: 'Trims the source video at each detected boundary and re-encodes the segment as a self-contained MP4 clip ready for embedding and captioning.' },
-    clipframes:   { name: 'ClipFrameExtractionStage', res: 'CPU',              desc: 'Decodes full-resolution frames from each clip and resizes them to the input dimensions required by the chosen embedding model (432×432 for C-RADIO, 224×224 for InternVideo2).' },
-    embedding:    { name: 'EmbeddingStage',           res: 'GPU ¼',            desc: 'Encodes 8 sampled frames through a vision transformer (C-RADIOv4-H: 2,560-dim, or InternVideo2-1B: 1,024-dim) and stores one L2-normalised embedding vector per clip.' },
-    vllmprep:     { name: 'VllmPrepStage',            res: 'CPU',              desc: 'Splits each clip into 256-frame (≈8.5 s) sliding windows, extracts frames at 2 fps, and tokenises them for batch submission to the vLLM inference server.' },
-    caption:      { name: 'VllmCaptionStage',         res: 'GPU 1.0',          desc: 'Runs the captioning VLM — Qwen 2.5-VL-7B (local vLLM), Gemma4-E4B (direct HF), GPT-4o, or Gemini 2.5 Flash — to generate a natural-language description for each window.' },
-    judge:        { name: 'JudgeStage',               res: 'GPU ½  (optional)',desc: 'Scores each generated caption with a pluggable VLM judge (VCInspector-7B or Gemma4-E4B), returning a correct/incorrect verdict and a one-sentence explanation per window.' },
-    writer:       { name: 'ClipWriterStage',          res: 'CPU',              desc: 'Persists all pipeline outputs to disk: clip MP4 files, per-clip embeddings in Parquet, captions and judge verdicts in JSON, and a pipeline summary.' },
+    downloader:      { name: 'VideoDownloader',               res: 'CPU',           desc: 'Opens the source video file from the input path and makes it available to the pipeline as a Video object.' },
+    remux:           { name: 'RemuxStage',                    res: 'CPU',           desc: 'Re-wraps the video bitstream into a clean MP4 container without re-encoding, fixing timestamps and format issues for reliable downstream decoding.' },
+    frameextract:    { name: 'VideoFrameExtractionStage',     res: 'CPU / GPU 0.1', desc: 'Decodes the full video at a tiny 27×48 px resolution using ffmpeg or PyNvVideoCodec; these thumbnail frames are the sole input to TransNetV2 shot detection.' },
+    transnetv2:      { name: 'TransNetV2ClipExtractionStage', res: 'GPU ¼',         desc: 'Runs the TransNetV2 neural network on the thumbnail frames to locate scene-change boundaries, producing precise start/end timestamps for each clip segment.' },
+    transcode:       { name: 'ClipTranscodingStage',          res: 'CPU',           desc: 'Trims the source video at each detected boundary and re-encodes the segment as a self-contained MP4 clip ready for embedding and captioning.' },
+    clipframes:      { name: 'ClipFrameExtractionStage',      res: 'CPU',           desc: 'Decodes full-resolution frames from each clip and resizes them to the embedding model\'s input dimensions (432×432 for C-RADIO, 224×224 for InternVideo2).' },
+    cradioframes:    { name: 'CRadioFrameCreationStage',      res: 'CPU',           desc: 'Samples 8 evenly-spaced frames per clip, applies C-RADIO preprocessing (normalise, resize to 432×432), and assembles them into a batch tensor.' },
+    cradioembedding: { name: 'CRadioEmbeddingStage',          res: 'GPU ¼',         desc: 'Runs the C-RADIOv4-H vision transformer (ViT-H backbone) on the 8-frame batch and stores one L2-normalised 2,560-d embedding vector per clip.' },
+    vllmprep:        { name: 'VllmPrepStage',                 res: 'CPU',           desc: 'Splits each clip into 256-frame (≈8.5 s) sliding windows, extracts frames at 2 fps, and tokenises them for batch submission to the vLLM inference server.' },
+    caption:         { name: 'VllmCaptionStage',              res: 'GPU 1.0',       desc: 'Runs the captioning VLM — Qwen 2.5-VL-7B (local vLLM), Gemma4-E4B (direct HF), GPT-4o, or Gemini 2.5 Flash — to generate a natural-language description per window.' },
+    judge:           { name: 'JudgeStage',                    res: 'GPU ½  (opt.)', desc: 'Scores each caption with a pluggable VLM judge (VCInspector-7B or Gemma4-E4B), returning a correct/incorrect verdict and a one-sentence explanation per window.' },
+    writer:          { name: 'ClipWriterStage',               res: 'CPU',           desc: 'Persists all pipeline outputs: clip MP4 files, per-clip embeddings in Parquet, captions and judge verdicts in JSON, and a pipeline summary.' },
   };
 
   window.selectStage = function(key) {
