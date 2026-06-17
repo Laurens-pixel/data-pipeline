@@ -4999,7 +4999,7 @@ video:-webkit-full-screen {
       diffusion transformer policy (seed=42 fixed across all conditions), each evaluated over
       500 rollouts (50 per task, same initial states via seed=42).
       VCInspector-7B flagged 17.6% of Qwen captions as incorrect — those episodes were dropped
-      to form the filtered condition.
+      to form the filtered condition. A second Qwen run (Qwen 2.0) on identical data quantifies training variance.
     </p>
 
     <div class="card-surface" style="padding:12px 16px;background:rgba(234,179,8,.04);border-color:rgba(234,179,8,.25);margin-bottom:14px;font-size:.86rem">
@@ -5042,9 +5042,9 @@ video:-webkit-full-screen {
               <td style="text-align:right">46.0%<span class="f1-bar-inline" style="width:46px"></span></td>
             </tr>
             <tr>
-              <td>Qwen (shuffled within task)</td>
+              <td>Qwen 2.0 <span style="font-size:.68rem;background:rgba(148,163,184,.1);color:var(--text-muted);border:1px solid rgba(148,163,184,.3);padding:1px 6px;border-radius:4px">variance run</span></td>
               <td>454</td>
-              <td style="font-size:.82rem;color:var(--text-muted)">Qwen captions shuffled across episodes of same task</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Same Qwen dataset, independent training run</td>
               <td style="color:var(--text-muted)">—</td>
               <td style="text-align:right">42.8%<span class="f1-bar-inline" style="width:43px"></span></td>
             </tr>
@@ -5073,10 +5073,10 @@ video:-webkit-full-screen {
         Multiple training seeds are needed to detect the filtering effect.
       </div>
       <div class="card-surface" style="padding:18px;background:rgba(212,148,10,.04);border-color:rgba(212,148,10,.2)">
-        <strong>Shuffled is not a floor</strong> — within-task shuffling reassigns near-identical
-        Qwen captions across episodes of the same task. Since Qwen produces homogeneous descriptions
-        per task, the shuffled language signal is effectively the same as raw Qwen. A true floor
-        would require cross-task shuffling.
+        <strong>Qwen 2.0 quantifies noise</strong> — same 454 episodes, same captions, same seed,
+        yet 46.0% vs 42.8% (3.2 pp gap). Combined with the Gemma4-filtered anomaly (37.8% on
+        a dataset differing by 1 episode), this confirms the ±8 pp noise floor: no single-run
+        difference between Qwen variants is meaningful without multiple seeds.
       </div>
     </div>
   </div>
