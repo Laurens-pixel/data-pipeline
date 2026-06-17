@@ -4663,17 +4663,18 @@ video:-webkit-full-screen {
           <div class="stat-mini"><div class="v">0.110</div><div class="l">CIDEr-D vs GT labels</div></div>
           <div class="stat-mini"><div class="v">0.206</div><div class="l">METEOR vs GT labels</div></div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+          <div class="stat-mini"><div class="v">0.872</div><div class="l">BERTScore F1 vs GT labels</div></div>
           <div class="stat-mini"><div class="v">0.978</div><div class="l">Kendall τ (action order)</div></div>
           <div class="stat-mini"><div class="v" style="color:#dc2626">1.5%</div><div class="l">Retrieval MRR (GT→caption)</div></div>
-          <div class="stat-mini"><div class="v">7.0%</div><div class="l">Zero-shot action recognition</div></div>
+          <div class="stat-mini"><div class="v">7.0%</div><div class="l">Zero-shot action recog.</div></div>
         </div>
         <p style="font-size:.78rem;color:var(--text-muted);margin-top:12px;margin-bottom:0">
           <strong>Under-segmentation</strong>: 95.5% of GT action events span more than one 8.5 s pipeline window —
           each Qwen caption covers 3–4 mixed actions rather than a single atomic step.
-          This explains the low CIDEr-D (0.11) and near-random retrieval (MRR 1.5%):
-          scene-level descriptions don't align with atomic action labels.
-          Action ordering is preserved (Kendall τ = 0.978). BERTScore pending (job 23963995).
+          High BERTScore (0.872) reflects surface-level semantic overlap between scene descriptions
+          and GT labels (both mention objects and actions), but low CIDEr-D (0.11) and near-random
+          retrieval (MRR 1.5%) show they are not interchangeable. Action ordering is preserved (Kendall τ = 0.978).
         </p>
       </div>
     </div>
