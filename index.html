@@ -4070,6 +4070,9 @@ video:-webkit-full-screen {
     <div class="progress-item" data-section="judges">
       <a href="#judges"><span class="progress-dot"></span><span class="progress-label">Judges</span></a>
     </div>
+    <div class="progress-item" data-section="libero">
+      <a href="#libero"><span class="progress-dot"></span><span class="progress-label">Robot Policy</span></a>
+    </div>
   </div>
 </nav>
 
@@ -4122,6 +4125,7 @@ video:-webkit-full-screen {
       <a href="#benchmarks">Benchmarks</a>
       <a href="#datasets">Datasets</a>
       <a href="#judges">Judges</a>
+      <a href="#libero">Robot Policy</a>
     </div>
 
     <div class="hero-waves" aria-hidden="true">
@@ -4960,6 +4964,86 @@ video:-webkit-full-screen {
       </div>
       <div class="card-surface" style="padding:18px;background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2)">
         Both judges <strong>degrade on richer captions</strong> (GPT-4o, Gemini 2.5): VCInspector F1 drops 0.726→0.554 because hedging language ("appears to be") triggers false positives.
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="libero">
+    <div class="tagline">Robot Policy Experiment</div>
+    <p class="section-lead">
+      Do better captions improve downstream task success? Five language-conditioning variants
+      trained on <strong>LIBERO-Object</strong> (454 episodes · 10 pick-and-place tasks) with a multi-task
+      diffusion transformer policy, each evaluated over 500 rollouts (50 per task).
+      VCInspector-7B flagged 17.6% of Qwen captions as incorrect — those episodes were dropped
+      to form the filtered condition.
+    </p>
+
+    <div class="card-surface" style="padding:0;overflow:hidden;margin-bottom:16px">
+      <div class="table-wrap">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th>Condition</th><th>Episodes</th><th>Language source</th><th>VCI trigger</th><th style="text-align:right">Task success ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:rgba(22,163,74,.05)">
+              <td><strong>GT language</strong> <span style="font-size:.68rem;background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.3);padding:1px 6px;border-radius:4px">ceiling</span></td>
+              <td>454</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Hand-written task instructions</td>
+              <td style="color:var(--text-muted)">—</td>
+              <td style="text-align:right"><strong style="color:#16a34a">79.0%</strong><span class="f1-bar-inline" style="width:79px;background:#16a34a"></span></td>
+            </tr>
+            <tr class="best">
+              <td><strong>Qwen VCI-filtered</strong> <span style="font-size:.68rem;background:rgba(59,130,246,.1);color:var(--cool-horizon);border:1px solid rgba(59,130,246,.25);padding:1px 6px;border-radius:4px">best</span></td>
+              <td>374</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Qwen 2.5-VL; 80 incorrect dropped</td>
+              <td>17.6%</td>
+              <td style="text-align:right"><strong>47.6%</strong><span class="f1-bar-inline" style="width:48px"></span></td>
+            </tr>
+            <tr>
+              <td>Qwen (raw)</td>
+              <td>454</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Qwen 2.5-VL-7B, unfiltered</td>
+              <td style="color:var(--text-muted)">—</td>
+              <td style="text-align:right">46.0%<span class="f1-bar-inline" style="width:46px"></span></td>
+            </tr>
+            <tr style="background:rgba(239,68,68,.03)">
+              <td>Shuffled Qwen <span style="font-size:.68rem;background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.3);padding:1px 6px;border-radius:4px">floor</span></td>
+              <td>454</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Qwen captions shuffled within task</td>
+              <td style="color:var(--text-muted)">—</td>
+              <td style="text-align:right">42.8%<span class="f1-bar-inline" style="width:43px;background:#dc2626"></span></td>
+            </tr>
+            <tr>
+              <td>Qwen Gemma4-filtered</td>
+              <td>453</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Qwen 2.5-VL; 1 incorrect dropped</td>
+              <td>0.2%</td>
+              <td style="text-align:right">37.8%<span class="f1-bar-inline" style="width:38px"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px" class="cards-grid">
+      <div class="card-surface" style="padding:18px;background:rgba(22,163,74,.04);border-color:rgba(22,163,74,.2)">
+        <strong>GT is clearly better</strong> — 79% (95% CI ±5 pp) vs all Qwen variants clustered at
+        38–48% (95% CI ±11–16 pp). The gap reflects both caption accuracy and style: Qwen describes
+        visual scenes while GT instructions specify task goals, a CLIP-space mismatch the policy cannot bridge.
+      </div>
+      <div class="card-surface" style="padding:18px;background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2)">
+        <strong>All Qwen variants are indistinguishable</strong> — per-task success rate std is 17–26 pp
+        across 10 tasks, giving a SE of 5–8 pp on the overall mean. The 8.2 pp gap between
+        Qwen (46%) and Gemma4-filtered (37.8%), and the +1.6 pp VCI advantage, are both within noise.
+        Multiple training seeds are needed to detect the filtering effect.
+      </div>
+      <div class="card-surface" style="padding:18px;background:rgba(212,148,10,.04);border-color:rgba(212,148,10,.2)">
+        <strong>Gemma4-filtered anomaly explained</strong> — with only 1 episode dropped (0.2%),
+        the dataset is nearly identical to raw Qwen. The 8 pp lower result comes entirely from
+        training stochasticity: tasks 5 and 9 swapped performance between the two runs
+        (14%→54% and 10%→50%), accounting for almost the entire gap.
       </div>
     </div>
   </div>
