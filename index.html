@@ -4646,12 +4646,35 @@ video:-webkit-full-screen {
         </div>
       </div>
       <div class="card-surface" style="margin-top:14px;padding:16px 20px">
+        <div style="font-size:.72rem;font-weight:600;letter-spacing:.06em;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Judge verdicts · 15,301 windows · 2,587 videos</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
-          <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">23.5%</div><div class="l">VCI correct (ref-free)</div></div>
+          <div class="stat-mini"><div class="v" style="color:var(--cool-horizon)">23.5%</div><div class="l">VCI-7B correct (ref-free)</div></div>
           <div class="stat-mini"><div class="v" style="color:#16a34a">40.4%</div><div class="l">Gemma4 correct (with GT)</div></div>
           <div class="stat-mini"><div class="v">60.6%</div><div class="l">Inter-judge agreement</div></div>
           <div class="stat-mini"><div class="v" style="color:#dc2626">48.3%</div><div class="l">Both incorrect (high-conf errors)</div></div>
         </div>
+      </div>
+
+      <div class="card-surface" style="margin-top:10px;padding:16px 20px">
+        <div style="font-size:.72rem;font-weight:600;letter-spacing:.06em;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Downstream evaluation · 3,081 clips matched to GT action labels</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;margin-bottom:14px">
+          <div class="stat-mini"><div class="v">22.0%</div><div class="l">Mean GT-window IoU</div></div>
+          <div class="stat-mini"><div class="v" style="color:#dc2626">95.5%</div><div class="l">Under-segmentation rate</div></div>
+          <div class="stat-mini"><div class="v">0.110</div><div class="l">CIDEr-D vs GT labels</div></div>
+          <div class="stat-mini"><div class="v">0.206</div><div class="l">METEOR vs GT labels</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+          <div class="stat-mini"><div class="v">0.978</div><div class="l">Kendall τ (action order)</div></div>
+          <div class="stat-mini"><div class="v" style="color:#dc2626">1.5%</div><div class="l">Retrieval MRR (GT→caption)</div></div>
+          <div class="stat-mini"><div class="v">7.0%</div><div class="l">Zero-shot action recognition</div></div>
+        </div>
+        <p style="font-size:.78rem;color:var(--text-muted);margin-top:12px;margin-bottom:0">
+          <strong>Under-segmentation</strong>: 95.5% of GT action events span more than one 8.5 s pipeline window —
+          each Qwen caption covers 3–4 mixed actions rather than a single atomic step.
+          This explains the low CIDEr-D (0.11) and near-random retrieval (MRR 1.5%):
+          scene-level descriptions don't align with atomic action labels.
+          Action ordering is preserved (Kendall τ = 0.978). BERTScore pending (job 23963995).
+        </p>
       </div>
     </div>
 
@@ -5018,12 +5041,12 @@ video:-webkit-full-screen {
               <td style="color:var(--text-muted)">—</td>
               <td style="text-align:right">46.0%<span class="f1-bar-inline" style="width:46px"></span></td>
             </tr>
-            <tr style="background:rgba(239,68,68,.03)">
-              <td>Shuffled Qwen <span style="font-size:.68rem;background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.3);padding:1px 6px;border-radius:4px">floor</span></td>
+            <tr>
+              <td>Qwen (shuffled within task)</td>
               <td>454</td>
-              <td style="font-size:.82rem;color:var(--text-muted)">Qwen captions shuffled within task</td>
+              <td style="font-size:.82rem;color:var(--text-muted)">Qwen captions shuffled across episodes of same task</td>
               <td style="color:var(--text-muted)">—</td>
-              <td style="text-align:right">42.8%<span class="f1-bar-inline" style="width:43px;background:#dc2626"></span></td>
+              <td style="text-align:right">42.8%<span class="f1-bar-inline" style="width:43px"></span></td>
             </tr>
             <tr>
               <td>Qwen Gemma4-filtered</td>
@@ -5045,15 +5068,15 @@ video:-webkit-full-screen {
       </div>
       <div class="card-surface" style="padding:18px;background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2)">
         <strong>All Qwen variants are indistinguishable</strong> — per-task success rate std is 17–26 pp
-        across 10 tasks, giving a SE of 5–8 pp on the overall mean. The 8.2 pp gap between
-        Qwen (46%) and Gemma4-filtered (37.8%), and the +1.6 pp VCI advantage, are both within noise.
+        across 10 tasks, giving a SE of 5–8 pp on the overall mean. The differences between
+        all four Qwen variants (37.8–47.6%) are within noise.
         Multiple training seeds are needed to detect the filtering effect.
       </div>
       <div class="card-surface" style="padding:18px;background:rgba(212,148,10,.04);border-color:rgba(212,148,10,.2)">
-        <strong>Gemma4-filtered anomaly explained</strong> — with only 1 episode dropped (0.2%),
-        the dataset is nearly identical to raw Qwen. The 8 pp lower result comes entirely from
-        training stochasticity: tasks 5 and 9 swapped performance between the two runs
-        (14%→54% and 10%→50%), accounting for almost the entire gap.
+        <strong>Shuffled is not a floor</strong> — within-task shuffling reassigns near-identical
+        Qwen captions across episodes of the same task. Since Qwen produces homogeneous descriptions
+        per task, the shuffled language signal is effectively the same as raw Qwen. A true floor
+        would require cross-task shuffling.
       </div>
     </div>
   </div>
