@@ -4973,10 +4973,20 @@ video:-webkit-full-screen {
     <p class="section-lead">
       Do better captions improve downstream task success? Five language-conditioning variants
       trained on <strong>LIBERO-Object</strong> (454 episodes · 10 pick-and-place tasks) with a multi-task
-      diffusion transformer policy, each evaluated over 500 rollouts (50 per task).
+      diffusion transformer policy (seed=42 fixed across all conditions), each evaluated over
+      500 rollouts (50 per task, same initial states via seed=42).
       VCInspector-7B flagged 17.6% of Qwen captions as incorrect — those episodes were dropped
       to form the filtered condition.
     </p>
+
+    <div class="card-surface" style="padding:12px 16px;background:rgba(234,179,8,.04);border-color:rgba(234,179,8,.25);margin-bottom:14px;font-size:.86rem">
+      <strong>⚠ Single-seed limitation.</strong>
+      All five conditions share seed=42 for weight initialisation and rollout states, which controls
+      for the most obvious sources of variance. However, per-task success rate standard deviation
+      is 17–26 pp across 10 tasks (SE ≈ 5–8 pp on the overall mean), so the differences between
+      Qwen variants (all within ±10 pp of each other) are within noise.
+      Confirming the VCI-filtering effect requires averaging over ≥ 3 training seeds per condition.
+    </div>
 
     <div class="card-surface" style="padding:0;overflow:hidden;margin-bottom:16px">
       <div class="table-wrap">
